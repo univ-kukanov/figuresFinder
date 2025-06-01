@@ -12,6 +12,7 @@ public:
 	int getColumn() const;
 
 	bool operator==(const ElementPosition& other) const;
+	bool operator<(const ElementPosition& other) const;
 
 	ElementPosition();
 	ElementPosition(int newRow, int newColumn);

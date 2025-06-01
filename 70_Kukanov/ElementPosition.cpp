@@ -20,6 +20,16 @@ bool ElementPosition::operator==(const ElementPosition& other) const {
 	return (row == other.getRow() && column == other.getColumn());
 }
 
+bool ElementPosition::operator<(const ElementPosition& other) const {
+	if (row < other.getRow()) {
+		return true;
+	}
+	else if (row == other.getRow() && column < other.getColumn()) {
+		return true;
+	}
+	return false;
+}
+
 ElementPosition::ElementPosition() {
 
 }
