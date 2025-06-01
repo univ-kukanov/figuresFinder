@@ -15,7 +15,7 @@ private:
 	int expColumnCount;
 	int expRowCount;
 	int columnCount;
-	int rowColumn;
+	int rowCount;
 	string matrixElement;
 	ElementPosition pos;
 	string errorInputFileWay;
