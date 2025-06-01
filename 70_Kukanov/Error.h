@@ -5,7 +5,7 @@
 using namespace std;
 
 enum ErrorType {
-	noError, rowCountError, columnCountError, missingNumberOfElements, tooManyElements, tooManyRows, matrixSizeNotInt,
+	noError, rowCountError, columnCountError, incorrectDimensionsCount, missingNumberOfElements, tooManyElements, tooManyRows, matrixSizeNotInt,
 	matrixElementNotInt, matrixElementNotInRange, inFileNotExist, outFileCreateFail, inFileIsEmpty
 };
 
