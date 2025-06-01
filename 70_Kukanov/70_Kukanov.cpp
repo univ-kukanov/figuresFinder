@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 #include <set>
 #include <vector>
-#include <fstream>
 #include "ElementPosition.h"
 #include "Error.h"
 #include "Figure.h"
@@ -15,23 +14,7 @@ int main()
 
 void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors)
 {
-    string line;
-    ifstream input(filename);
 
-    if (!input.is_open()) {
-        Error error;
-        error.setErrorType(inFileNotExist);
-        error.setErrorInputFileWay(filename);
-    }
-    else {
-        while (getline(input, line)) {
-            if (!line.empty()) {
-                lines.push_back(line);
-            }
-        }
-
-        input.close();
-    }
 }
 
 int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize)
