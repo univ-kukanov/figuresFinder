@@ -41,6 +41,25 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
 bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
 {
+    ofstream outFile(filename);
+    if (!outFile.is_open()) {
+        return false;
+    }
+
+    if (!errors.empty()) {
+        for (auto it = errors.begin(); it != errors.end(); ++it) {
+            Error error = *it;
+            string errorString = error.generateErrorMessage();
+            outFile << errorString << "\n";
+        }
+    }
+    else {
+        for (auto it = output.begin(); it != output.end(); ++it) {
+            outFile << *it << "\n";
+        }
+    }
+
+    outFile.close();
     return true;
 }
 
