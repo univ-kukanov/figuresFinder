@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="70_Kukanov.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ElementPosition.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
