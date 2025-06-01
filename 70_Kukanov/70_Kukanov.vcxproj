@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="70_Kukanov.cpp" />
     <ClCompile Include="ElementPosition.cpp" />
+    <ClCompile Include="Error.cpp" />
     <ClCompile Include="Figure.cpp" />
   </ItemGroup>
   <ItemGroup>
