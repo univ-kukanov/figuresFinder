@@ -8,12 +8,16 @@ void ElementPosition::setColumn(int newColumn) {
 	column = newColumn;
 }
 
-int ElementPosition::getRow() {
+int ElementPosition::getRow() const {
 	return row;
 }
 
-int ElementPosition::getColumn() {
+int ElementPosition::getColumn() const {
 	return column;
+}
+
+bool ElementPosition::operator==(const ElementPosition& other) const {
+	return (row == other.getRow() && column == other.getColumn());
 }
 
 ElementPosition::ElementPosition() {
