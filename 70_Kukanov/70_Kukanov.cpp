@@ -16,21 +16,21 @@ int main()
 void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors)
 {
     string line;
-    ifstream input(filename);
+    ifstream inFile(filename);
 
-    if (!input.is_open()) {
+    if (!inFile.is_open()) {
         Error error;
         error.setErrorType(inFileNotExist);
         error.setErrorInputFileWay(filename);
     }
     else {
-        while (getline(input, line)) {
+        while (getline(inFile, line)) {
             if (!line.empty()) {
                 lines.push_back(line);
             }
         }
 
-        input.close();
+        inFile.close();
     }
 }
 
