@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include "ElementPosition.h"
 #include "Error.h"
 #include "Figure.h"
@@ -36,7 +37,55 @@ void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors
 
 int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize)
 {
-    return NULL;
+    istringstream dimensionsStream(lines[0]);
+    vector<string> dimensions;
+    string dimension;
+
+    while (dimensionsStream >> dimension) {
+        dimensions.push_back(dimension);
+    }
+
+    if (dimensions.size() != 2) {
+        Error error;
+        error.setErrorType(incorrectDimensionsCount);
+        errors.insert(error);
+        return NULL;
+    }
+    else {
+        bool noDigitFlag = false;
+        for (const auto& dim : dimensions) {
+            for (char symbol : dim) {
+                if (!isdigit(symbol)) {
+                    noDigitFlag = true;
+                }
+            }
+        }
+
+        if (noDigitFlag) {
+            Error error;
+            error.setErrorType(matrixElementNotInt);
+            errors.insert(error);
+            return NULL;
+        }
+        *numberOfRows = stoi(dimensions[0]);
+        *numberOfColumns = stoi(dimensions[1]);
+
+        if (*numberOfRows > 1000 || *numberOfRows <= 0) {
+            Error error;
+            error.setErrorType(rowCountError);
+            errors.insert(error);
+            return NULL;
+        }
+        if (*numberOfColumns > 1000 || *numberOfColumns <= 0) {
+            Error error;
+            error.setErrorType(columnCountError);
+            errors.insert(error);
+            return NULL;
+        }
+    }
+
+    int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
+    *maxElementSize = 0;
 }
 
 bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
