@@ -31,5 +31,9 @@ public:
 	void setErrorInputFileWay(string newErrorInputFileWay);
 	void setErrorOutputfileWay(string newErrorOutputfileWay);
 
+	ErrorType getErrorType() const;
+
 	string generateErrorMessage();
+
+	bool operator<(const Error& other) const;
 };

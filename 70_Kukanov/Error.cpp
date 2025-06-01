@@ -36,6 +36,10 @@ void Error::setErrorOutputfileWay(string newErrorOutputfileWay) {
 	errorOutputfileWay = newErrorOutputfileWay;
 }
 
+ErrorType Error::getErrorType() const {
+	return type;
+}
+
 string Error::generateErrorMessage() {
 	switch (type) {
 	case noError:
@@ -77,4 +81,15 @@ string Error::generateErrorMessage() {
 	case inFileIsEmpty:
 		break;
 	}
+
+	string str = "testError";
+	return str;
+}
+
+bool Error::operator<(const Error& other) const {
+	if (type < other.getErrorType())
+	{
+		return true;
+	}
+	return false;
 }
