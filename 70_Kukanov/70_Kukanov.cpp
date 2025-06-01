@@ -23,6 +23,7 @@ void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors
         Error error;
         error.setErrorType(inFileNotExist);
         error.setErrorInputFileWay(filename);
+        errors.insert(error);
     }
     else {
         while (getline(inFile, line)) {
