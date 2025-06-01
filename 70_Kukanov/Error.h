@@ -4,6 +4,11 @@
 
 using namespace std;
 
+enum ErrorType {
+	noError, rowCountError, columnCountError, missingNumberOfElements, tooManyElements, tooManyRows, matrixSizeNotInt,
+	matrixElementNotInt, matrixElementNotInRange, inFileNotExist, outFileCreateFail, inFileIsEmpty
+};
+
 class Error {
 private:
 	ErrorType type;
