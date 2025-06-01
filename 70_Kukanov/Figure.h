@@ -12,5 +12,6 @@ public:
 	void addElement(ElementPosition pos);
 	int figureSize();
 	bool isElementInFigure(ElementPosition pos);
-	void setElement(int newElement);
+	void setElementValue(int newElement);
+	int getElementValue();
 };
