@@ -87,6 +87,62 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
     int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
     *maxElementSize = 0;
+
+    bool isErrorFind = false;
+    int currentRow = 0;
+    for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
+        int currentColumn = 0;
+        vector<string> splitElements;
+        istringstream elements(*it);
+        string element;
+
+        while (elements >> element) {
+            splitElements.push_back(element);
+        }
+
+        if (splitElements.size() > *numberOfColumns) {
+            Error error;
+            error.setErrorType(tooManyElements);
+            error.setExpColumnCount(*numberOfColumns);
+            error.setColumnCount(splitElements.size());
+
+            isErrorFind = true;
+        }
+        else if (splitElements.size() < *numberOfColumns) {
+            Error error;
+            error.setErrorType(missingNumberOfElements);
+            error.setExpColumnCount(*numberOfColumns);
+            error.setColumnCount(splitElements.size());
+
+            isErrorFind = true;
+        }
+        else {
+            for (auto& el : splitElements) {
+                currentColumn++;
+                for (char symbol : el) {
+                    if (!isdigit(symbol) && symbol != '-') {
+                        Error error;
+                        error.setErrorType(matrixElementNotInt);
+                        error.setMatrixElement(el);
+                        error.setPos(ElementPosition(currentRow, currentColumn));
+                        errors.insert(error);
+
+                        isErrorFind = true;
+                    }
+                }
+
+                if (!isErrorFind) {
+                    if (el.size() > *maxElementSize) {
+                        *maxElementSize = el.size();
+                    }
+
+                    matrix[currentRow * (*numberOfColumns) + currentColumn] = stoi(el);
+                }
+            }
+
+            currentRow++;
+        }
+    }
 }
 
 bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
