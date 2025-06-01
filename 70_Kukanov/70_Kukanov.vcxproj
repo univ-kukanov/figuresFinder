@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="70_Kukanov.cpp" />
+    <ClCompile Include="ElementPosition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ElementPosition.h" />
