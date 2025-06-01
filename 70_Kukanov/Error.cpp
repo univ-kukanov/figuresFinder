@@ -35,3 +35,46 @@ void Error::setErrorInputFileWay(string newErrorInputFileWay) {
 void Error::setErrorOutputfileWay(string newErrorOutputfileWay) {
 	errorOutputfileWay = newErrorOutputfileWay;
 }
+
+string Error::generateErrorMessage() {
+	switch (type) {
+	case noError:
+		break;
+
+	case rowCountError:
+		break;
+
+	case columnCountError:
+		break;
+
+	case incorrectDimensionsCount:
+		break;
+
+	case missingNumberOfElements:
+		break;
+
+	case tooManyElements:
+		break;
+
+	case tooManyRows:
+		break;
+
+	case matrixSizeNotInt:
+		break;
+
+	case matrixElementNotInt:
+		break;
+
+	case matrixElementNotInRange:
+		break;
+
+	case inFileNotExist:
+		break;
+
+	case outFileCreateFail:
+		break;
+
+	case inFileIsEmpty:
+		break;
+	}
+}
