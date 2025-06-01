@@ -4,7 +4,7 @@ void Figure::addElement(ElementPosition pos) {
 	positions.insert(pos);
 }
 
-int Figure::figureSize() {
+int Figure::figureSize() const {
 	return positions.size();
 }
 
@@ -24,4 +24,11 @@ void Figure::setElementValue(int newElement) {
 
 int Figure::getElementValue() {
 	return element;
+}
+
+bool Figure::operator<(const Figure& other) const {
+	if (positions.size() < other.figureSize()) {
+		return true;
+	}
+	return false;
 }

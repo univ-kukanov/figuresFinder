@@ -10,8 +10,10 @@ private:
 	int element;
 public:
 	void addElement(ElementPosition pos);
-	int figureSize();
+	int figureSize() const;
 	bool isElementInFigure(ElementPosition pos);
 	void setElementValue(int newElement);
 	int getElementValue();
+
+	bool operator<(const Figure& other) const;
 };
