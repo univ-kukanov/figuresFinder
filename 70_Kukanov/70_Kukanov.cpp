@@ -35,7 +35,7 @@ void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOf
 
     for (int i = 0; i < numberOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
-            if ((passedMatrix + i * numberOfColumns + j) == 0) {
+            if (*(passedMatrix + i * numberOfColumns + j) == 0) {
                 Figure newFigure;
                 int newElement = *(matrix + i * numberOfColumns + j);
 
