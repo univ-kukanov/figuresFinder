@@ -80,5 +80,29 @@ void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, i
 
 void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns)
 {
+    int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
+    string separator(separatorLength, '-');
 
+    for (auto it = figures.begin(); it != figures.end(); ++it) {
+        Figure currentFigure = *it;
+        string currentElementValue = to_string(currentFigure.getElementValue());
+
+        for (int i = 0; i < numberOfRows; i++) {
+            string newString;
+
+            for (int j = 0; j < numberOfColumns; j++) {
+                if (!currentFigure.isElementInFigure(ElementPosition(i, j))) {
+                    newString += "* ";
+                }
+                else {
+                    newString += currentElementValue;
+                }
+            }
+            output.push_back(newString);
+        }
+
+        if (next(it) != figures.end()) {
+            output.push_back(separator);
+        }
+    }
 }
