@@ -112,7 +112,7 @@ string Error::generateErrorMessage() {
 		break;
 
 	case matrixSizeNotInt:
-		errorString = "Размер матрицы указан неверно. Введите два целых числа.";
+		errorString = "Размер матрицы указан неверно. Введите два целых положительных числа.";
 		break;
 
 	case matrixElementNotInt:
