@@ -151,6 +151,9 @@ bool Error::operator<(const Error& other) const {
 	if (columnCount != other.columnCount) {
 		return columnCount < other.columnCount;
 	}
+	if (currentRow != other.currentRow) {
+		return currentRow < other.currentRow;
+	}
 	if (!(pos == other.pos)) {
 		return pos < other.pos;
 	}
