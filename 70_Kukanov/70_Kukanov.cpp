@@ -6,6 +6,7 @@
 #include "ElementPosition.h"
 #include "Error.h"
 #include "Figure.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -175,7 +176,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
                     *maxElementSize = el.size();
                 }
 
-                matrix[currentRow * (*numberOfColumns) + currentColumn] = stoi(el);
+                matrix[(currentRow - 1) * (*numberOfColumns) + (currentColumn - 1)] = stoi(el);
             }
         }
     }
