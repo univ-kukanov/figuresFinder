@@ -87,9 +87,18 @@ string Error::generateErrorMessage() {
 }
 
 bool Error::operator<(const Error& other) const {
-	if (type < other.type)
+	if (type != other.type)
 	{
-		return true;
+		return type < other.type;
 	}
-	return false;
+	if (rowCount != other.rowCount) {
+		return rowCount < other.rowCount;
+	}
+	if (columnCount != other.columnCount) {
+		return columnCount < other.columnCount;
+	}
+	if (!(pos == other.pos)) {
+		return pos < other.pos;
+	}
+	return matrixElement < other.matrixElement;
 }
