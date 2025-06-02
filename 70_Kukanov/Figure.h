@@ -13,7 +13,7 @@ public:
 	int figureSize() const;
 	bool isElementInFigure(ElementPosition pos);
 	void setElementValue(int newElement);
-	int getElementValue();
+	int getElementValue() const;
 
 	bool operator<(const Figure& other) const;
 };

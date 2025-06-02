@@ -22,13 +22,16 @@ void Figure::setElementValue(int newElement) {
 	element = newElement;
 }
 
-int Figure::getElementValue() {
+int Figure::getElementValue() const {
 	return element;
 }
 
 bool Figure::operator<(const Figure& other) const {
-	if (positions.size() < other.figureSize()) {
-		return true;
+	if (positions.size() != other.positions.size()) {
+		return positions.size() < other.positions.size();
 	}
-	return false;
+	if (element != other.element) {
+		return element < other.element;
+	}
+	return lexicographical_compare(positions.begin(), positions.end(), other.positions.begin(), other.positions.end());
 }
