@@ -145,12 +145,12 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         }
 
         if (splitElements.size() > *numberOfColumns) {
-            errors.insert(Error(tooManyElements, *numberOfColumns, splitElements.size()));
+            errors.insert(Error(tooManyElements, *numberOfColumns, splitElements.size(), currentRow));
 
             isErrorFound = true;
         }
         else if (splitElements.size() < *numberOfColumns) {
-            errors.insert(Error(missingNumberOfElements, *numberOfColumns, splitElements.size()));
+            errors.insert(Error(missingNumberOfElements, *numberOfColumns, splitElements.size(), currentRow));
 
             isErrorFound = true;
         }
@@ -186,6 +186,10 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
     if (rowCountError) {
         errors.insert(Error(tooManyRows, *numberOfRows, currentRow));
+    }
+
+    if (!errors.empty()) {
+        return NULL;
     }
 
     return matrix;

@@ -40,6 +40,7 @@ public:
 	Error(ErrorType newType);
 	Error(ErrorType newType, string newErrorFileWay);
 	Error(ErrorType newType, int newExpCount, int newCount);
+	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);
 	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);
 
 	bool operator<(const Error& other) const;
