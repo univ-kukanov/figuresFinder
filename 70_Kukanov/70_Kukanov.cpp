@@ -95,19 +95,29 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         return NULL;
     }
     else {
-        bool noDigitFlag = false;
+        bool isDigitOnly = true;
         for (const auto& dim : dimensions) {
             for (char symbol : dim) {
                 if (!isdigit(symbol)) {
-                    noDigitFlag = true;
+                    isDigitOnly = false;
                 }
             }
         }
 
-        if (noDigitFlag) {
+        if (!isDigitOnly) {
             errors.insert(Error(matrixSizeNotInt));
             return NULL;
         }
+
+        if (!isDimensionInRange(dimensions[0])) {
+            errors.insert(Error(rowCountError));
+            return NULL;
+        }
+        if (!isDimensionInRange(dimensions[1])) {
+            errors.insert(Error(columnCountError));
+            return NULL;
+        }
+
         *numberOfRows = stoi(dimensions[0]);
         *numberOfColumns = stoi(dimensions[1]);
 
