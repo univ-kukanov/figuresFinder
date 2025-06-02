@@ -35,5 +35,11 @@ public:
 
 	string generateErrorMessage();
 
+	Error();
+	Error(ErrorType newType);
+	Error(ErrorType newType, string newErrorFileWay);
+	Error(ErrorType newType, int newExpCount, int newCount);
+	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);
+
 	bool operator<(const Error& other) const;
 };

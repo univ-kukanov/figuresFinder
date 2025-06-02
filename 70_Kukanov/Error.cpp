@@ -1,5 +1,39 @@
 #include "Error.h"
 
+Error::Error() {
+	type = noError;
+}
+
+Error::Error(ErrorType newType) {
+	type = newType;
+}
+
+Error::Error(ErrorType newType, string newErrorFileWay) {
+	type = newType;
+	if (type == inFileNotExist) {
+		errorInputFileWay = newErrorFileWay;
+	}
+	else {
+		errorOutputfileWay = newErrorFileWay;
+	}
+}
+
+Error::Error(ErrorType newType, int newExpCount, int newCount) {
+	type = newType;
+	if (type == missingNumberOfElements || type == tooManyElements) {
+		expColumnCount = newExpCount;
+		columnCount = newCount;
+	}
+	else {
+		expRowCount = newExpCount;
+		rowCount = newCount;
+	}
+}
+
+Error::Error(ErrorType newType, ElementPosition newPos, string newMatrixElement) {
+
+}
+
 void Error::setErrorType(ErrorType newType) {
 	type = newType;
 }
