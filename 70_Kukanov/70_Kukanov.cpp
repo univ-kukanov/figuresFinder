@@ -105,7 +105,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         }
 
         if (noDigitFlag) {
-            errors.insert(Error(matrixElementNotInt));
+            errors.insert(Error(matrixSizeNotInt));
             return NULL;
         }
         *numberOfRows = stoi(dimensions[0]);
@@ -157,18 +157,21 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
         for (auto& el : splitElements) {
             currentColumn++;
+            bool isDigitOnly = true;
             int currentSymbol = 0;
             for (char symbol : el) {
                 if (!isdigit(symbol)) {
                     if (currentSymbol != 0 || symbol != '-') {
                         errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
+
                         isErrorFound = true;
+                        isDigitOnly = false;
                     }
                     currentSymbol++;
                 }
             }
 
-            if (!isInIntRange(el)) {
+            if (isDigitOnly && !isInIntRange(el)) {
                 errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), el));
 
                 isErrorFound = true;
