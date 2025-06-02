@@ -282,3 +282,20 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
         }
     }
 }
+
+
+
+bool isInIntRange(string number)
+{
+    if (number.size() > 11) {
+        return false;
+    }
+
+    try {
+        long long value = stoll(number);
+        return (value >= -2147483648 && value <= 2147483647);
+    }
+    catch (const exception&) {
+        return false;
+    }
+}
