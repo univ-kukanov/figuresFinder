@@ -19,22 +19,20 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
 
 int main()
 {
-    int* matrix = new int[100]{
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+    int* matrix = new int[40]{
+    1, 1, 1, 1, 1,
+    1, 0, 0, 1, 1,
+    0, 0, 1, 1, 0,
+    0, 1, 1, 0, 0,
+    1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1,
+    1, 0, 0, 0, 1,
     };
 
     int maxElementSize = 1;
-    int numberOfRows = 10;
-    int numberOfColumns = 10;
+    int numberOfRows = 8;
+    int numberOfColumns = 5;
     set<Figure> figures;
     set<Error> errors;
     vector<string> output;
@@ -218,6 +216,7 @@ void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOf
             if (*(passedMatrix + i * numberOfColumns + j) == 0) {
                 Figure newFigure;
                 int newElement = *(matrix + i * numberOfColumns + j);
+                newFigure.setElementValue(newElement);
 
                 findFigureInMatrixByGivenElement(matrix, passedMatrix, i, j, newElement, newFigure, numberOfRows, numberOfColumns);
 
