@@ -148,6 +148,7 @@
     <ClInclude Include="ElementPosition.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="Figure.h" />
+    <ClInclude Include="functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
