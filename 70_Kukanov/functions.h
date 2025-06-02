@@ -18,3 +18,5 @@ void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, i
 void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns);
 
 bool isInIntRange(string number);
+
+bool isDimensionInRange(string dimension);

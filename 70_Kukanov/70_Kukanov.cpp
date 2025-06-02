@@ -318,3 +318,13 @@ bool isInIntRange(string number)
         return false;
     }
 }
+
+bool isDimensionInRange(string dimension) {
+    if (isInIntRange(dimension)) {
+        int size = stoi(dimension);
+        if (size <= 1000 || size > 0) {
+            return true;
+        }
+    }
+    return false;
+}
