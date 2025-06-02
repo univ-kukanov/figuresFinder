@@ -157,11 +157,14 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
         for (auto& el : splitElements) {
             currentColumn++;
+            int currentSymbol = 0;
             for (char symbol : el) {
-                if (!isdigit(symbol) && symbol != '-') {                             // !!!Надо исправить тут проверку дефиса!!!
-                    errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
-
-                    isErrorFound = true;
+                if (!isdigit(symbol)) {
+                    if (currentSymbol != 0 || symbol != '-') {
+                        errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
+                        isErrorFound = true;
+                    }
+                    currentSymbol++;
                 }
             }
 
