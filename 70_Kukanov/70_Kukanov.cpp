@@ -56,10 +56,7 @@ void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors
     ifstream inFile(filename);
 
     if (!inFile.is_open()) {
-        Error error;
-        error.setErrorType(inFileNotExist);
-        error.setErrorInputFileWay(filename);
-        errors.insert(error);
+        errors.insert(Error(inFileNotExist, filename));
     }
     else {
         while (getline(inFile, line)) {
@@ -83,9 +80,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     }
 
     if (dimensions.size() != 2) {
-        Error error;
-        error.setErrorType(incorrectDimensionsCount);
-        errors.insert(error);
+        errors.insert(Error(incorrectDimensionsCount));
         return NULL;
     }
     else {
@@ -99,24 +94,18 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         }
 
         if (noDigitFlag) {
-            Error error;
-            error.setErrorType(matrixElementNotInt);
-            errors.insert(error);
+            errors.insert(Error(matrixElementNotInt));
             return NULL;
         }
         *numberOfRows = stoi(dimensions[0]);
         *numberOfColumns = stoi(dimensions[1]);
 
         if (*numberOfRows > 1000 || *numberOfRows <= 0) {
-            Error error;
-            error.setErrorType(rowCountError);
-            errors.insert(error);
+            errors.insert(Error(rowCountError));
             return NULL;
         }
         if (*numberOfColumns > 1000 || *numberOfColumns <= 0) {
-            Error error;
-            error.setErrorType(columnCountError);
-            errors.insert(error);
+            errors.insert(Error(columnCountError));
             return NULL;
         }
     }
@@ -145,18 +134,12 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         }
 
         if (splitElements.size() > *numberOfColumns) {
-            Error error;
-            error.setErrorType(tooManyElements);
-            error.setExpColumnCount(*numberOfColumns);
-            error.setColumnCount(splitElements.size());
+            errors.insert(Error(tooManyElements, *numberOfColumns, splitElements.size()));
 
             isErrorFound = true;
         }
         else if (splitElements.size() < *numberOfColumns) {
-            Error error;
-            error.setErrorType(missingNumberOfElements);
-            error.setExpColumnCount(*numberOfColumns);
-            error.setColumnCount(splitElements.size());
+            errors.insert(Error(missingNumberOfElements, *numberOfColumns, splitElements.size()));
 
             isErrorFound = true;
         }
@@ -165,22 +148,14 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             currentColumn++;
             for (char symbol : el) {
                 if (!isdigit(symbol) && symbol != '-') {                             // !!!Надо исправить тут проверку дефиса!!!
-                    Error error;
-                    error.setErrorType(matrixElementNotInt);
-                    error.setMatrixElement(el);
-                    error.setPos(ElementPosition(currentRow, currentColumn));
-                    errors.insert(error);
+                    errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
 
                     isErrorFound = true;
                 }
             }
 
             if (!isInIntRange(el)) {
-                Error error;
-                error.setErrorType(matrixElementNotInRange);
-                error.setMatrixElement(el);
-                error.setPos(ElementPosition(currentRow, currentColumn));
-                errors.insert(error);
+                errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), el));
 
                 isErrorFound = true;
             }
@@ -196,11 +171,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     }
 
     if (rowCountError) {
-        Error error;
-        error.setErrorType(tooManyRows);
-        error.setExpRowCount(*numberOfRows);
-        error.setRowCount(currentRow + 1);
-        errors.insert(error);
+        errors.insert(Error(tooManyRows, *numberOfRows, currentRow));
     }
 
     return matrix;
@@ -310,7 +281,6 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
         }
     }
 }
-
 
 
 bool isInIntRange(string number)
