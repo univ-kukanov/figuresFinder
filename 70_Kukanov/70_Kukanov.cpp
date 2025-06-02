@@ -152,32 +152,29 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
             isErrorFind = true;
         }
-        else {
-            for (auto& el : splitElements) {
-                currentColumn++;
-                for (char symbol : el) {
-                    if (!isdigit(symbol) && symbol != '-') {
-                        Error error;
-                        error.setErrorType(matrixElementNotInt);
-                        error.setMatrixElement(el);
-                        error.setPos(ElementPosition(currentRow, currentColumn));
-                        errors.insert(error);
+        for (auto& el : splitElements) {
+            currentColumn++;
+            for (char symbol : el) {
+                if (!isdigit(symbol) && symbol != '-') {
+                    Error error;
+                    error.setErrorType(matrixElementNotInt);
+                    error.setMatrixElement(el);
+                    error.setPos(ElementPosition(currentRow, currentColumn));
+                    errors.insert(error);
 
-                        isErrorFind = true;
-                    }
-                }
-
-                if (!isErrorFind) {
-                    if (el.size() > *maxElementSize) {
-                        *maxElementSize = el.size();
-                    }
-
-                    matrix[currentRow * (*numberOfColumns) + currentColumn] = stoi(el);
+                    isErrorFind = true;
                 }
             }
 
-            currentRow++;
+            if (!isErrorFind) {
+                if (el.size() > *maxElementSize) {
+                    *maxElementSize = el.size();
+                }
+
+                matrix[currentRow * (*numberOfColumns) + currentColumn] = stoi(el);
+            }
         }
+        currentRow++;
     }
 }
 
