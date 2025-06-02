@@ -87,7 +87,7 @@ string Error::generateErrorMessage() {
 }
 
 bool Error::operator<(const Error& other) const {
-	if (type < other.getErrorType())
+	if (type < other.type)
 	{
 		return true;
 	}

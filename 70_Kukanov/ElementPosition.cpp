@@ -17,17 +17,14 @@ int ElementPosition::getColumn() const {
 }
 
 bool ElementPosition::operator==(const ElementPosition& other) const {
-	return (row == other.getRow() && column == other.getColumn());
+	return (row == other.row && column == other.column);
 }
 
 bool ElementPosition::operator<(const ElementPosition& other) const {
-	if (row < other.getRow()) {
-		return true;
+	if (row != other.row) {
+		return row < other.row;
 	}
-	else if (row == other.getRow() && column < other.getColumn()) {
-		return true;
-	}
-	return false;
+	return column < other.column;
 }
 
 ElementPosition::ElementPosition() {
