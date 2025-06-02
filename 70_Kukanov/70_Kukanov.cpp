@@ -15,39 +15,58 @@ bool outputDataToFile(string filename, vector<string>& output, set<Error>& error
 void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOfColumns, set<Figure>& figures);
 void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, int column, int element, Figure& newFigure, int numberOfRows, int numberOfColumns);
 void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns);
+bool isInIntRange(string number);
 
 
-int main()
+int main(int argc, char* argv[])
 {
-    int* matrix = new int[40]{
-    1, 1, 1, 1, 1,
-    1, 0, 0, 1, 1,
-    0, 0, 1, 1, 0,
-    0, 1, 1, 0, 0,
-    1, 1, 1, 1, 1,
-    0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1,
-    1, 0, 0, 0, 1,
-    };
+    if (argc < 3)
+    {
+        cerr << "Error." << endl;
+        return 1;
+    }
 
-    int maxElementSize = 1;
-    int numberOfRows = 8;
-    int numberOfColumns = 5;
-    set<Figure> figures;
+    string inputFilename = argv[1];
+    string outputFilename = argv[2];
+    vector<string> inputData;
+    vector<string> outputData;
     set<Error> errors;
-    vector<string> output;
-    string outputFilename = "./test.txt";
+    set<Figure> figures;
 
-    extractLargestFiguresFromMatrix(matrix, numberOfRows, numberOfColumns, figures);
-    if (figures.size() > 0) {
-        generateOutputMatrix(figures, output, maxElementSize, numberOfRows, numberOfColumns);
-    }
-    else {
-        output.push_back("no figures");
+    readDataFromFile(inputFilename, inputData, errors);
+
+    if (!errors.empty()) {
+        auto it = errors.begin();
+        Error error = *it;
+        string errorString = error.generateErrorMessage();
+        cerr << errorString << endl;
+        return 1;
     }
 
-    outputDataToFile(outputFilename, output, errors);
-    return 1;
+    int rows = 0;
+    int columns = 0;
+    int maxElementSize = 0;
+
+    int* matrix = parseMatrixData(inputData, errors, &rows, &columns, &maxElementSize);
+
+    if (errors.empty()) {
+        extractLargestFiguresFromMatrix(matrix, rows, columns, figures);
+
+        if (!figures.empty()) {
+            generateOutputMatrix(figures, outputData, maxElementSize, rows, columns);
+        }
+        else {
+            outputData.push_back("no figures");
+        }
+    }
+
+    bool isOutputComplieted = outputDataToFile(outputFilename, outputData, errors);
+    if (!isOutputComplieted) {
+        cerr << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;
+        return 1;
+    }
+
+    return 0;
 }
 
 void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors)
