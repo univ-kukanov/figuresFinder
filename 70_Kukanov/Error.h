@@ -31,7 +31,7 @@ public:
 	void setErrorInputFileWay(string newErrorInputFileWay);
 	void setErrorOutputfileWay(string newErrorOutputfileWay);
 
-	ErrorType getErrorType() const;
+
 
 	string generateErrorMessage();
 

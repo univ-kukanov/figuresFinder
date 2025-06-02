@@ -70,9 +70,7 @@ void Error::setErrorOutputfileWay(string newErrorOutputfileWay) {
 	errorOutputfileWay = newErrorOutputfileWay;
 }
 
-ErrorType Error::getErrorType() const {
-	return type;
-}
+
 
 string Error::generateErrorMessage() {
 	switch (type) {
