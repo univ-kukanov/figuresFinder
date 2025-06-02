@@ -271,10 +271,10 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
 
             for (int j = 0; j < numberOfColumns; j++) {
                 if (!currentFigure.isElementInFigure(ElementPosition(i, j))) {
-                    newString += "* ";
+                    newString += string(currentElementValue.size(), '*') + " ";
                 }
                 else {
-                    newString += currentElementValue;
+                    newString += currentElementValue + " ";
                 }
             }
             output.push_back(newString);
