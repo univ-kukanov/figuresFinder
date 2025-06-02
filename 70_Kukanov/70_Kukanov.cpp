@@ -111,6 +111,10 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
         if (!isDimensionInRange(dimensions[0])) {
             errors.insert(Error(rowCountError));
+            if (!isDimensionInRange(dimensions[1])) {
+                errors.insert(Error(columnCountError));
+                return NULL;
+            }
             return NULL;
         }
         if (!isDimensionInRange(dimensions[1])) {
@@ -135,15 +139,20 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     *maxElementSize = 0;
 
     bool isErrorFound = false;
-    bool rowCountError = false;
+
+    if (lines.size() - 1 < *numberOfRows) {
+        errors.insert(Error(missingNumberOfRows, *numberOfRows, lines.size() - 1));
+        isErrorFound = true;
+    }
+    else if (lines.size() - 1 > *numberOfRows) {
+        errors.insert(Error(tooManyRows, *numberOfRows, lines.size() - 1));
+        isErrorFound = true;
+    }
+
     int currentRow = 0;
     for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
 
         currentRow++;
-        if (!rowCountError && currentRow > (*numberOfRows)) {
-            rowCountError = true;
-            isErrorFound = true;
-        }
 
         int currentColumn = 0;
         vector<string> splitElements;
@@ -169,7 +178,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             currentColumn++;
             bool isDigitOnly = true;
             int currentSymbol = 0;
-            for (char symbol : el) {
+            for (unsigned char symbol : el) {
                 if (!isdigit(symbol)) {
                     if (currentSymbol != 0 || symbol != '-') {
                         errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
@@ -177,8 +186,8 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
                         isErrorFound = true;
                         isDigitOnly = false;
                     }
-                    currentSymbol++;
                 }
+                currentSymbol++;
             }
 
             if (isDigitOnly && !isInIntRange(el)) {
@@ -197,9 +206,6 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         }
     }
 
-    if (rowCountError) {
-        errors.insert(Error(tooManyRows, *numberOfRows, currentRow));
-    }
 
     if (!errors.empty()) {
         return NULL;
