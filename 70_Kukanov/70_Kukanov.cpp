@@ -124,9 +124,17 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
     *maxElementSize = 0;
 
-    bool isErrorFind = false;
+    bool isErrorFound = false;
+    bool rowCountError = false;
     int currentRow = 0;
     for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
+
+        currentRow++;
+        if (!rowCountError && currentRow > (*numberOfRows)) {
+            rowCountError = true;
+            isErrorFound = true;
+        }
+
         int currentColumn = 0;
         vector<string> splitElements;
         istringstream elements(*it);
@@ -142,7 +150,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             error.setExpColumnCount(*numberOfColumns);
             error.setColumnCount(splitElements.size());
 
-            isErrorFind = true;
+            isErrorFound = true;
         }
         else if (splitElements.size() < *numberOfColumns) {
             Error error;
@@ -150,23 +158,34 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             error.setExpColumnCount(*numberOfColumns);
             error.setColumnCount(splitElements.size());
 
-            isErrorFind = true;
+            isErrorFound = true;
         }
+
         for (auto& el : splitElements) {
             currentColumn++;
             for (char symbol : el) {
-                if (!isdigit(symbol) && symbol != '-') {
+                if (!isdigit(symbol) && symbol != '-') {                             // !!!Надо исправить тут проверку дефиса!!!
                     Error error;
                     error.setErrorType(matrixElementNotInt);
                     error.setMatrixElement(el);
                     error.setPos(ElementPosition(currentRow, currentColumn));
                     errors.insert(error);
 
-                    isErrorFind = true;
+                    isErrorFound = true;
                 }
             }
 
-            if (!isErrorFind) {
+            if (!isInIntRange(el)) {
+                Error error;
+                error.setErrorType(matrixElementNotInRange);
+                error.setMatrixElement(el);
+                error.setPos(ElementPosition(currentRow, currentColumn));
+                errors.insert(error);
+
+                isErrorFound = true;
+            }
+
+            if (!isErrorFound) {
                 if (el.size() > *maxElementSize) {
                     *maxElementSize = el.size();
                 }
@@ -174,8 +193,17 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
                 matrix[currentRow * (*numberOfColumns) + currentColumn] = stoi(el);
             }
         }
-        currentRow++;
     }
+
+    if (rowCountError) {
+        Error error;
+        error.setErrorType(tooManyRows);
+        error.setExpRowCount(*numberOfRows);
+        error.setRowCount(currentRow + 1);
+        errors.insert(error);
+    }
+
+    return matrix;
 }
 
 bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
