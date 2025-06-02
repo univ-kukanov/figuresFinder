@@ -102,13 +102,19 @@ string Error::generateErrorMessage() {
 			+ to_string(expColumnCount) + ", введенное количество - " + to_string(columnCount) + ". Введите корректную по размерам матрицу.";
 		break;
 
+	case missingNumberOfRows:
+		errorString = "Матрица не соответствует указанным размерам: слишком мало строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - "
+			+ to_string(rowCount) + ". Введите корректную по размерам матрицу.";
+		break;
+
 	case tooManyElements:
 		errorString = "Матрица не соответствует указанным размерам: в строке " + to_string(currentRow) + " слишком много элементов. Ожидаемое количество - "
 			+ to_string(expColumnCount) + ", введенное количество - " + to_string(columnCount) + ". Введите корректную по размерам матрицу.";
 		break;
 
 	case tooManyRows:
-		errorString = "Матрица не соответствует указанным размерам: слишком много строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - " + to_string(rowCount) + ". Введите корректную по размерам матрицу.";
+		errorString = "Матрица не соответствует указанным размерам: слишком много строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - "
+			+ to_string(rowCount) + ". Введите корректную по размерам матрицу.";
 		break;
 
 	case matrixSizeNotInt:
@@ -116,11 +122,13 @@ string Error::generateErrorMessage() {
 		break;
 
 	case matrixElementNotInt:
-		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце " + to_string(pos.getColumn()) + " не является целым числом. Элементы матрицы могут быть только целыми числами.";
+		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце "
+			+ to_string(pos.getColumn()) + " не является целым числом. Элементы матрицы могут быть только целыми числами.";
 		break;
 
 	case matrixElementNotInRange:
-		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце " + to_string(pos.getColumn()) + " не соответствует допустимому диапазону значений [−2147483648..2147483647].";
+		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце "
+			+ to_string(pos.getColumn()) + " не соответствует допустимому диапазону значений [−2147483648..2147483647].";
 		break;
 
 	case inFileNotExist:
