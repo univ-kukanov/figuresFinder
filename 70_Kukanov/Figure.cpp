@@ -1,5 +1,14 @@
 #include "Figure.h"
 
+Figure::Figure(set<ElementPosition> pos, int el) {
+	positions = pos;
+	element = el;
+}
+
+Figure::Figure() {
+
+}
+
 void Figure::addElement(ElementPosition pos) {
 	positions.insert(pos);
 }
@@ -8,7 +17,7 @@ int Figure::figureSize() const {
 	return positions.size();
 }
 
-bool Figure::isElementInFigure(ElementPosition pos) {
+bool Figure::isElementInFigure(ElementPosition pos) const {
 	for (auto& currentPos : positions) {
 		if (pos == currentPos) {
 			return true;
@@ -34,4 +43,12 @@ bool Figure::operator<(const Figure& other) const {
 		return element < other.element;
 	}
 	return lexicographical_compare(positions.begin(), positions.end(), other.positions.begin(), other.positions.end());
+}
+
+bool Figure::operator==(const Figure& other) const {
+	return (positions == other.positions && element == other.element);
+}
+
+const set<ElementPosition>& Figure::getPositions() const {
+	return positions;
 }
