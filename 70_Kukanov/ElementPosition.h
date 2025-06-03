@@ -2,8 +2,8 @@
 
 class ElementPosition {
 private:
-	int row;
-	int column;
+	int row = -1;
+	int column = -1;
 public:
 	void setRow(int newRow);
 	void setColumn(int newColumn);
