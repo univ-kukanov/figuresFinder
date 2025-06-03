@@ -20,7 +20,7 @@ Error::Error(ErrorType newType, string newErrorFileWay) {
 
 Error::Error(ErrorType newType, int newExpCount, int newCount) {
 	type = newType;
-	if (type == missingNumberOfElements || type == tooManyElements) {
+	if (type == tooFewElements || type == tooManyElements) {
 		expColumnCount = newExpCount;
 		columnCount = newCount;
 	}
@@ -79,7 +79,47 @@ void Error::setErrorOutputfileWay(string newErrorOutputfileWay) {
 	errorOutputfileWay = newErrorOutputfileWay;
 }
 
-string Error::generateErrorMessage() {
+ErrorType Error::getErrorType() {
+	return type;
+}
+
+int Error::getExpColumnCount() {
+	return expColumnCount;
+}
+
+int Error::getExpRowCount() {
+	return expRowCount;
+}
+
+int Error::getColumnCount() {
+	return columnCount;
+}
+
+int Error::getRowCount() {
+	return rowCount;
+}
+
+int Error::getCurrentRow() {
+	return currentRow;
+}
+
+string Error::getMatrixElement() {
+	return matrixElement;
+}
+
+ElementPosition Error::getPos() {
+	return pos;
+}
+
+string Error::getErrorInputFileWay() {
+	return errorInputFileWay;
+}
+
+string Error::getErrorOutputfileWay() {
+	return errorOutputfileWay;
+}
+
+string Error::generateErrorMessage() const {
 	string errorString;
 	switch (type) {
 	case noError:
@@ -97,12 +137,12 @@ string Error::generateErrorMessage() {
 		errorString = "Размер матрицы указан неверно. Размер матрицы задается двумя целыми числами - количество строк, количество столбцов.";
 		break;
 
-	case missingNumberOfElements:
+	case tooFewElements:
 		errorString = "Матрица не соответствует указанным размерам: в строке " + to_string(currentRow) + " недостающее количество элементов. Ожидаемое количество - "
 			+ to_string(expColumnCount) + ", введенное количество - " + to_string(columnCount) + ". Введите корректную по размерам матрицу.";
 		break;
 
-	case missingNumberOfRows:
+	case tooFewRows:
 		errorString = "Матрица не соответствует указанным размерам: слишком мало строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - "
 			+ to_string(rowCount) + ". Введите корректную по размерам матрицу.";
 		break;
@@ -166,4 +206,12 @@ bool Error::operator<(const Error& other) const {
 		return pos < other.pos;
 	}
 	return matrixElement < other.matrixElement;
+}
+
+bool Error::operator==(const Error& other) const {
+	return (type == other.type && expColumnCount == other.expColumnCount &&
+		expRowCount == other.expRowCount && columnCount == other.columnCount &&
+		rowCount == other.rowCount && currentRow == other.currentRow &&
+		matrixElement == other.matrixElement && pos == other.pos &&
+		errorInputFileWay == other.errorInputFileWay && errorOutputfileWay == other.errorOutputfileWay);
 }

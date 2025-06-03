@@ -11,16 +11,16 @@ enum ErrorType {
 
 class Error {
 private:
-	ErrorType type;
-	int expColumnCount;
-	int expRowCount;
-	int columnCount;
-	int rowCount;
-	int currentRow;
-	string matrixElement;
+	ErrorType type = noError;
+	int expColumnCount = 0;
+	int expRowCount = 0;
+	int columnCount = 0;
+	int rowCount = 0;
+	int currentRow = -1;
+	string matrixElement = "";
 	ElementPosition pos;
-	string errorInputFileWay;
-	string errorOutputfileWay;
+	string errorInputFileWay = "";
+	string errorOutputfileWay = "";
 public:
 	void setErrorType(ErrorType newType);
 	void setExpColumnCount(int newExpColumnCount);
@@ -32,9 +32,18 @@ public:
 	void setErrorInputFileWay(string newErrorInputFileWay);
 	void setErrorOutputfileWay(string newErrorOutputfileWay);
 
+	ErrorType getErrorType();
+	int getExpColumnCount();
+	int getExpRowCount();
+	int getColumnCount();
+	int getRowCount();
+	int getCurrentRow();
+	string getMatrixElement();
+	ElementPosition getPos();
+	string getErrorInputFileWay();
+	string getErrorOutputfileWay();
 
-
-	string generateErrorMessage();
+	string generateErrorMessage() const;
 
 	Error();
 	Error(ErrorType newType);
@@ -44,4 +53,5 @@ public:
 	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);
 
 	bool operator<(const Error& other) const;
+	bool operator==(const Error& other) const;
 };
