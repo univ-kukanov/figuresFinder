@@ -168,6 +168,7 @@
     <ClCompile Include="Test_extractLargestFiguresFromMatrix.cpp" />
     <ClCompile Include="Test_findFigureInMatrixByGivenElement.cpp" />
     <ClCompile Include="Test_generateOutputMatrix.cpp" />
+    <ClCompile Include="Test_parseMatrixData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
