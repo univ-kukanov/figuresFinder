@@ -132,12 +132,6 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         *numberOfRows = stoi(dimensions[0]);
         *numberOfColumns = stoi(dimensions[1]);
 
-        if (*numberOfRows > 1000 || *numberOfRows <= 0) {
-            errors.insert(Error(rowCountError));
-        }
-        if (*numberOfColumns > 1000 || *numberOfColumns <= 0) {
-            errors.insert(Error(columnCountError));
-        }
         if (!errors.empty()) {
             *numberOfRows = 0;
             *numberOfColumns = 0;
