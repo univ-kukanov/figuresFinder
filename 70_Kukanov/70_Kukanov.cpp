@@ -35,6 +35,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    if (inputData.size() == 0) {
+        Error error(inFileIsEmpty);
+        string errorString = error.generateErrorMessage();
+        cerr << errorString << endl;
+        return 1;
+    }
+
     int rows = 0;
     int columns = 0;
     int maxElementSize = 0;
