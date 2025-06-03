@@ -30,9 +30,9 @@ const Figure* findFigureByPosition(const set<Figure>& figures, const ElementPosi
 
 // Сравнения фигур
 void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figures) {
+    wstringstream ss;
     // Проверка количества фигур
     if (exp_figures.size() != figures.size()) {
-        wstringstream ss;
         ss << "Different number of figures. Expected: " << exp_figures.size() << ", Actual: " << figures.size() << "\n";
 
         // Поиск отсутствующих фигур
@@ -68,27 +68,30 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
         Assert::Fail(ss.str().c_str());
     }
 
+    bool isErrorFound = false;
+
     // Проверка значений элементов и позиций
     for (const auto& expFig : exp_figures) {
-        bool found = false;
+        bool equal = false;
         for (const auto& actFig : figures) {
             if (expFig.getPositions() == actFig.getPositions()) {
-                found = true;
+                equal = true;
+
                 // Проверка значения элемента
                 if (expFig.getElementValue() != actFig.getElementValue()) {
-                    wstringstream ss;
                     ss << "Figure at positions " << formatPositions(expFig.getPositions())
                         << "has wrong element value. Expected: " << expFig.getElementValue()
-                        << ", Actual: " << actFig.getElementValue();
-                    Assert::Fail(ss.str().c_str());
+                        << ", Actual: " << actFig.getElementValue() << "\n";
+                    isErrorFound = true;
                 }
                 break;
             }
         }
 
-        if (!found) {
+        if (!equal) {
+            isErrorFound = true;
+
             // Проверка, какие именно позиции не совпали
-            wstringstream ss;
             ss << "Could not find exact match for figure with value " << expFig.getElementValue()
                 << " and positions: " << formatPositions(expFig.getPositions()) << "\n";
 
@@ -105,9 +108,11 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
                         << ") was not found in any figure\n";
                 }
             }
-
-            Assert::Fail(ss.str().c_str());
         }
+    }
+
+    if (isErrorFound) {
+        Assert::Fail(ss.str().c_str());
     }
 }
 
