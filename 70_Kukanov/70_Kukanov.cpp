@@ -134,10 +134,13 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
         if (*numberOfRows > 1000 || *numberOfRows <= 0) {
             errors.insert(Error(rowCountError));
-            return NULL;
         }
         if (*numberOfColumns > 1000 || *numberOfColumns <= 0) {
             errors.insert(Error(columnCountError));
+        }
+        if (!errors.empty()) {
+            *numberOfRows = 0;
+            *numberOfColumns = 0;
             return NULL;
         }
     }
@@ -148,7 +151,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     bool isErrorFound = false;
 
     if (lines.size() - 1 < *numberOfRows) {
-        errors.insert(Error(missingNumberOfRows, *numberOfRows, lines.size() - 1));
+        errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));
         isErrorFound = true;
     }
     else if (lines.size() - 1 > *numberOfRows) {
@@ -176,7 +179,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             isErrorFound = true;
         }
         else if (splitElements.size() < *numberOfColumns) {
-            errors.insert(Error(missingNumberOfElements, *numberOfColumns, splitElements.size(), currentRow));
+            errors.insert(Error(tooFewElements, *numberOfColumns, splitElements.size(), currentRow));
 
             isErrorFound = true;
         }
@@ -325,7 +328,6 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
         }
     }
 }
-
 
 bool isInIntRange(string number)
 {
