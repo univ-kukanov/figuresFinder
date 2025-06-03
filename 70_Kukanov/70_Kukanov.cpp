@@ -207,11 +207,12 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             }
 
             if (!isErrorFound) {
-                if (el.size() > *maxElementSize) {
-                    *maxElementSize = el.size();
+                int newElement = stoi(el);
+                if (to_string(newElement).size() > *maxElementSize) {
+                    *maxElementSize = to_string(newElement).size();
                 }
 
-                matrix[(currentRow - 1) * (*numberOfColumns) + (currentColumn - 1)] = stoi(el);
+                matrix[(currentRow - 1) * (*numberOfColumns) + (currentColumn - 1)] = newElement;
             }
         }
     }
