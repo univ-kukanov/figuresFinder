@@ -126,64 +126,63 @@ string Error::generateErrorMessage() const {
 		break;
 
 	case rowCountError:
-		errorString = "Программа принимает на вход матрицы размером от 1x1 до 1000x1000. Введите корректные данные о количестве строк в матрице.";
+		errorString = "The program accepts matrices with sizes from 1x1 to 1000x1000. Please enter valid row count.";
 		break;
 
 	case columnCountError:
-		errorString = "Программа принимает на вход матрицы размером от 1x1 до 1000x1000. Введите корректные данные о количестве столбцов в матрице.";
+		errorString = "The program accepts matrices with sizes from 1x1 to 1000x1000. Please enter valid column count.";
 		break;
 
 	case incorrectDimensionsCount:
-		errorString = "Размер матрицы указан неверно. Размер матрицы задается двумя целыми числами - количество строк, количество столбцов.";
+		errorString = "Matrix dimensions specified incorrectly. Matrix size should be defined by two integers - row count and column count.";
 		break;
 
 	case tooFewElements:
-		errorString = "Матрица не соответствует указанным размерам: в строке " + to_string(currentRow) + " недостающее количество элементов. Ожидаемое количество - "
-			+ to_string(expColumnCount) + ", введенное количество - " + to_string(columnCount) + ". Введите корректную по размерам матрицу.";
+		errorString = "Matrix doesn't match specified dimensions: row " + to_string(currentRow) + " has too few elements. Expected: "
+			+ to_string(expColumnCount) + ", actual: " + to_string(columnCount) + ". Please enter a properly sized matrix.";
 		break;
 
 	case tooFewRows:
-		errorString = "Матрица не соответствует указанным размерам: слишком мало строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - "
-			+ to_string(rowCount) + ". Введите корректную по размерам матрицу.";
+		errorString = "Matrix doesn't match specified dimensions: too few rows. Expected: " + to_string(expRowCount) + ", actual: "
+			+ to_string(rowCount) + ". Please enter a properly sized matrix.";
 		break;
 
 	case tooManyElements:
-		errorString = "Матрица не соответствует указанным размерам: в строке " + to_string(currentRow) + " слишком много элементов. Ожидаемое количество - "
-			+ to_string(expColumnCount) + ", введенное количество - " + to_string(columnCount) + ". Введите корректную по размерам матрицу.";
+		errorString = "Matrix doesn't match specified dimensions: row " + to_string(currentRow) + " has too many elements. Expected: "
+			+ to_string(expColumnCount) + ", actual: " + to_string(columnCount) + ". Please enter a properly sized matrix.";
 		break;
 
 	case tooManyRows:
-		errorString = "Матрица не соответствует указанным размерам: слишком много строк. Ожидаемое количество - " + to_string(expRowCount) + ", введенное количество - "
-			+ to_string(rowCount) + ". Введите корректную по размерам матрицу.";
+		errorString = "Matrix doesn't match specified dimensions: too many rows. Expected: " + to_string(expRowCount) + ", actual: "
+			+ to_string(rowCount) + ". Please enter a properly sized matrix.";
 		break;
 
 	case matrixSizeNotInt:
-		errorString = "Размер матрицы указан неверно. Введите два целых положительных числа.";
+		errorString = "Matrix dimensions specified incorrectly. Please enter two positive integers.";
 		break;
 
 	case matrixElementNotInt:
-		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце "
-			+ to_string(pos.getColumn()) + " не является целым числом. Элементы матрицы могут быть только целыми числами.";
+		errorString = "Matrix element \"" + matrixElement + "\" at row " + to_string(pos.getRow()) + " column "
+			+ to_string(pos.getColumn()) + " is not an integer. Matrix elements must be integers only.";
 		break;
 
 	case matrixElementNotInRange:
-		errorString = "Элемент матрицы “" + matrixElement + "” в строке " + to_string(pos.getRow()) + " столбце "
-			+ to_string(pos.getColumn()) + " не соответствует допустимому диапазону значений [−2147483648..2147483647].";
+		errorString = "Matrix element \"" + matrixElement + "\" at row " + to_string(pos.getRow()) + " column "
+			+ to_string(pos.getColumn()) + " is out of valid range [-2147483648..2147483647].";
 		break;
 
 	case inFileNotExist:
-		errorString = "Неверно указан файл с входными данными. Возможно, файл не существует. Путь: " + errorInputFileWay;
+		errorString = "Input file specified incorrectly. The file might not exist. Path: " + errorInputFileWay;
 		break;
 
 	case outFileCreateFail:
-		errorString = "Неверно указан файл для выходных данных. Возможно, указанного расположения не существует или нет прав на запись. Путь: " + errorOutputfileWay;
+		errorString = "Output file specified incorrectly. The location might not exist or you don't have write permissions. Path: " + errorOutputfileWay;
 		break;
 
 	case inFileIsEmpty:
-		errorString = "Указанный входной файл является пустым.";
+		errorString = "The specified input file is empty.";
 		break;
 	}
-
 
 	return errorString;
 }
@@ -193,11 +192,17 @@ bool Error::operator<(const Error& other) const {
 	{
 		return type < other.type;
 	}
+	if (expRowCount != other.expRowCount) {
+		return expRowCount < other.expRowCount;
+	}
 	if (rowCount != other.rowCount) {
 		return rowCount < other.rowCount;
 	}
 	if (columnCount != other.columnCount) {
 		return columnCount < other.columnCount;
+	}
+	if (expColumnCount != other.expColumnCount) {
+		return expColumnCount < other.expColumnCount;
 	}
 	if (currentRow != other.currentRow) {
 		return currentRow < other.currentRow;
@@ -205,7 +210,13 @@ bool Error::operator<(const Error& other) const {
 	if (!(pos == other.pos)) {
 		return pos < other.pos;
 	}
-	return matrixElement < other.matrixElement;
+	if (matrixElement != other.matrixElement) {
+		return matrixElement < other.matrixElement;
+	}
+	if (errorInputFileWay != other.errorInputFileWay) {
+		return errorInputFileWay < other.errorInputFileWay;
+	}
+	return errorOutputfileWay < other.errorOutputfileWay;
 }
 
 bool Error::operator==(const Error& other) const {
