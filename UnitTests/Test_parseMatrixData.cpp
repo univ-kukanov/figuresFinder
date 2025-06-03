@@ -10,82 +10,82 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfRows, int numberOfColumns, int maxElementSize, const int* exp_matrix, const set<Error>& exp_errors, int exp_numberOfRows, int exp_numberOfColumns, int exp_maxElementSize)
 {
-    wstringstream ss;
+    wstringstream wss;
     bool isErrorFound = false;
 
     // Проверка соответствия кол-ва строк
     if (exp_numberOfRows != numberOfRows) {
-        ss << L"Incorrect number of rows. Expected: " << exp_numberOfRows
+        wss << L"Incorrect number of rows. Expected: " << exp_numberOfRows
             << L", Actual: " << numberOfRows << L"\n";
         isErrorFound = true;
     }
 
     // Проверка соответствия кол-ва столбцов
     if (exp_numberOfColumns != numberOfColumns) {
-        ss << L"Incorrect number of columns. Expected: " << exp_numberOfColumns
+        wss << L"Incorrect number of columns. Expected: " << exp_numberOfColumns
             << L", Actual: " << numberOfColumns << L"\n";
         isErrorFound = true;
     }
 
     // Проверка соответствия максимального размера элемента
     if (exp_maxElementSize != maxElementSize) {
-        ss << L"Incorrect maximum element size. Expected: " << exp_maxElementSize
+        wss << L"Incorrect maximum element size. Expected: " << exp_maxElementSize
             << L", Actual: " << maxElementSize << L"\n";
         isErrorFound = true;
     }
 
     // Проверка ошибок
     if (errors.size() != exp_errors.size()) {
-        ss << L"Incorrect number of errors. Expected: " << exp_errors.size()
+        wss << L"Incorrect number of errors. Expected: " << exp_errors.size()
             << L", Actual: " << errors.size() << L"\n";
 
         // Поиск отсутствующих ошибок
         if (!errors.empty()) {
-            ss << L"Missing expected errors:\n";
+            wss << L"Missing expected errors:\n";
             for (const auto& exp_error : exp_errors) {
                 if (errors.find(exp_error) == errors.end()) {
-                    ss << L"- " << exp_error.generateErrorMessage().c_str() << L"\n";
+                    wss << L"- " << exp_error.generateErrorMessage().c_str() << L"\n";
                 }
             }
         }
 
         // Поиск лишних ошибок
         if (!errors.empty()) {
-            ss << L"Unexpected errors found:\n";
+            wss << L"Unexpected errors found:\n";
             for (const auto& error : errors) {
                 if (exp_errors.find(error) == exp_errors.end()) {
-                    ss << L"- " << error.generateErrorMessage().c_str() << L"\n";
+                    wss << L"- " << error.generateErrorMessage().c_str() << L"\n";
                 }
             }
         }
 
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
         return;
     }
 
     // Сравнение ошибок
     if (!equal(exp_errors.begin(), exp_errors.end(), errors.begin())) {
-        ss << L"Errors don't match:\n";
+        wss << L"Errors don't match:\n";
 
         // Поиск ожидаемых, но ненайденных ошибок
         for (const auto& exp_error : exp_errors) {
             if (errors.find(exp_error) == errors.end()) {
-                ss << L"Expected but not found: " << exp_error.generateErrorMessage().c_str() << L"\n";
+                wss << L"Expected but not found: " << exp_error.generateErrorMessage().c_str() << L"\n";
             }
         }
 
         // Поиск найденных ошибок, которых не было в ожидаемых
         for (const auto& act_error : errors) {
             if (exp_errors.find(act_error) == exp_errors.end()) {
-                ss << L"Unexpected error found: " << act_error.generateErrorMessage().c_str() << L"\n";
+                wss << L"Unexpected error found: " << act_error.generateErrorMessage().c_str() << L"\n";
             }
         }
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
         return;
     }
 
     if (isErrorFound) {
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
     }
 
     // Сравнение матрицы
@@ -94,7 +94,7 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
             for (int j = 0; j < exp_numberOfColumns; ++j) {
                 const int index = i * exp_numberOfColumns + j;
                 if (exp_matrix[index] != matrix[index]) {
-                    ss << L"Matrix mismatch at position (" << i << L"," << j << L")\n"
+                    wss << L"Matrix mismatch at position (" << i << L"," << j << L")\n"
                         << L"Expected: " << exp_matrix[index] << L"\n"
                         << L"Actual: " << matrix[index] << L"\n";
                     isErrorFound = true;
@@ -103,7 +103,7 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
         }
 
         if (isErrorFound) {
-            Assert::Fail(ss.str().c_str());
+            Assert::Fail(wss.str().c_str());
             return;
         }
     }

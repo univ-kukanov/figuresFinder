@@ -10,25 +10,25 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 
 void assertFigureAndMatrix(const Figure& newFigure, const Figure& exp_newFigure, const int* matrix, const int* exp_matrix, int numberOfRows, int numberOfColumns) {
-    wstringstream ss;
+    wstringstream wss;
     bool isErrorFound = false;
 
     // Проверка размеров фигуры
     if (newFigure.figureSize() != exp_newFigure.figureSize()) {
-        ss << L"Figure size mismatch. Expected: " << exp_newFigure.figureSize()
+        wss << L"Figure size mismatch. Expected: " << exp_newFigure.figureSize()
             << L", Actual: " << newFigure.figureSize() << L"\n";
 
         // Поиск отсутствующих элементов
         for (const auto& pos : exp_newFigure.getPositions()) {
             if (!newFigure.isElementInFigure(pos)) {
-                ss << L"Missing element: (" << pos.getRow() << L"," << pos.getColumn() << L")\n";
+                wss << L"Missing element: (" << pos.getRow() << L"," << pos.getColumn() << L")\n";
             }
         }
 
         // Поиск лишних элементов
         for (const auto& pos : newFigure.getPositions()) {
             if (!exp_newFigure.isElementInFigure(pos)) {
-                ss << L"Extra element: (" << pos.getRow() << L"," << pos.getColumn() << L")\n";
+                wss << L"Extra element: (" << pos.getRow() << L"," << pos.getColumn() << L")\n";
             }
         }
 
@@ -40,7 +40,7 @@ void assertFigureAndMatrix(const Figure& newFigure, const Figure& exp_newFigure,
         // Поиск ожидаемых, но отсутствующих в найденной фигуре элементов
         for (const auto& expPos : exp_newFigure.getPositions()) {
             if (!newFigure.isElementInFigure(expPos)) {
-                ss << L"Expected element not found: (" << expPos.getRow()
+                wss << L"Expected element not found: (" << expPos.getRow()
                     << L"," << expPos.getColumn() << L")\n";
                 isErrorFound = true;
             }
@@ -49,19 +49,19 @@ void assertFigureAndMatrix(const Figure& newFigure, const Figure& exp_newFigure,
         // Поиск элементов, которые не должны быть в найденной фигуре
         for (const auto& actPos : newFigure.getPositions()) {
             if (!exp_newFigure.isElementInFigure(actPos)) {
-                ss << L"Unexpected element found: (" << actPos.getRow()
+                wss << L"Unexpected element found: (" << actPos.getRow()
                     << L"," << actPos.getColumn() << L")\n";
                 isErrorFound = true;
             }
         }
     }
 
-    // 3. Проверка пройденной матрицы
+    // Проверка пройденной матрицы
     for (int i = 0; i < numberOfRows; ++i) {
         for (int j = 0; j < numberOfColumns; ++j) {
             int index = i * numberOfColumns + j;
             if (matrix[index] != exp_matrix[index]) {
-                ss << L"Matrix mismatch at position (" << i << L"," << j << L")\n"
+                wss << L"Matrix mismatch at position (" << i << L"," << j << L")\n"
                     << L"Expected: " << exp_matrix[index] << L"\n"
                     << L"Actual: " << matrix[index] << L"\n";
                 isErrorFound = true;
@@ -70,7 +70,7 @@ void assertFigureAndMatrix(const Figure& newFigure, const Figure& exp_newFigure,
     }
 
     if (isErrorFound) {
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
         return;
     }
 }
@@ -227,7 +227,7 @@ namespace Test_findFigureInMatrixByGivenElement
                 ElementPosition(5, 3)
             };
 
-            Figure exp_newFigure(positions, element);
+            Figure exp_newFigure(positions, 9);
             exp_newFigure.setElementValue(element);
 
             int exp_passedMatrix[numberOfRows * numberOfColumns] = {

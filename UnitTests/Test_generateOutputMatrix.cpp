@@ -12,21 +12,21 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 void assertOutputEqual(const vector<string>& exp_output, const vector<string>& output) {
     // Проверка кол-ва строк
     if (exp_output.size() != output.size()) {
-        wstringstream ss;
-        ss << L"Different number of lines! Expected: " << exp_output.size()
+        wstringstream wss;
+        wss << L"Different number of lines! Expected: " << exp_output.size()
             << L", Actual: " << output.size();
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
         return;
     }
 
     // Построчная проверка
     for (int i = 0; i < exp_output.size(); ++i) {
         if (exp_output[i] != output[i]) {
-            wstringstream ss;
-            ss << L"Error in line " << i << ":\n"
+            wstringstream wss;
+            wss << L"Error in line " << i << ":\n"
                 << L"Expected: \"" << exp_output[i].c_str() << L"\"\n"
                 << L"Actual:   \"" << output[i].c_str() << L"\"";
-            Assert::Fail(ss.str().c_str());
+            Assert::Fail(wss.str().c_str());
             return;
         }
     }

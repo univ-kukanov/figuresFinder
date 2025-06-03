@@ -11,11 +11,11 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 // Функция форматирования набора позиций
 wstring formatPositions(const set<ElementPosition>& positions) {
-    wstringstream ss;
+    wstringstream wss;
     for (const auto& pos : positions) {
-        ss << "(" << pos.getRow() << "," << pos.getColumn() << ") ";
+        wss << "(" << pos.getRow() << "," << pos.getColumn() << ") ";
     }
-    return ss.str();
+    return wss.str();
 }
 
 // Функция поиска фигуры по позиции
@@ -30,10 +30,10 @@ const Figure* findFigureByPosition(const set<Figure>& figures, const ElementPosi
 
 // Сравнения фигур
 void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figures) {
-    wstringstream ss;
+    wstringstream wss;
     // Проверка количества фигур
     if (exp_figures.size() != figures.size()) {
-        ss << "Different number of figures. Expected: " << exp_figures.size() << ", Actual: " << figures.size() << "\n";
+        wss << "Different number of figures. Expected: " << exp_figures.size() << ", Actual: " << figures.size() << "\n";
 
         // Поиск отсутствующих фигур
         for (const auto& expFig : exp_figures) {
@@ -45,7 +45,7 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
                 }
             }
             if (!found) {
-                ss << "Missing figure with value " << expFig.getElementValue()
+                wss << "Missing figure with value " << expFig.getElementValue()
                     << " and positions: " << formatPositions(expFig.getPositions()) << "\n";
             }
         }
@@ -60,12 +60,12 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
                 }
             }
             if (!found) {
-                ss << "Extra figure with value " << actFig.getElementValue()
+                wss << "Extra figure with value " << actFig.getElementValue()
                     << " and positions: " << formatPositions(actFig.getPositions()) << "\n";
             }
         }
 
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
     }
 
     bool isErrorFound = false;
@@ -79,7 +79,7 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
 
                 // Проверка значения элемента
                 if (expFig.getElementValue() != actFig.getElementValue()) {
-                    ss << "Figure at positions " << formatPositions(expFig.getPositions())
+                    wss << "Figure at positions " << formatPositions(expFig.getPositions())
                         << "has wrong element value. Expected: " << expFig.getElementValue()
                         << ", Actual: " << actFig.getElementValue() << "\n";
                     isErrorFound = true;
@@ -92,19 +92,19 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
             isErrorFound = true;
 
             // Проверка, какие именно позиции не совпали
-            ss << "Could not find exact match for figure with value " << expFig.getElementValue()
+            wss << "Could not find exact match for figure with value " << expFig.getElementValue()
                 << " and positions: " << formatPositions(expFig.getPositions()) << "\n";
 
             // Проверка, есть ли позиции этой фигуры в других фигурах
             for (const auto& pos : expFig.getPositions()) {
                 const Figure* actFig = findFigureByPosition(figures, pos);
                 if (actFig) {
-                    ss << "Position (" << pos.getRow() << "," << pos.getColumn()
+                    wss << "Position (" << pos.getRow() << "," << pos.getColumn()
                         << ") was found in figure with value " << actFig->getElementValue()
                         << " and positions: " << formatPositions(actFig->getPositions()) << "\n";
                 }
                 else {
-                    ss << "Position (" << pos.getRow() << "," << pos.getColumn()
+                    wss << "Position (" << pos.getRow() << "," << pos.getColumn()
                         << ") was not found in any figure\n";
                 }
             }
@@ -112,7 +112,7 @@ void assertFiguresEqual(const set<Figure>& exp_figures, const set<Figure>& figur
     }
 
     if (isErrorFound) {
-        Assert::Fail(ss.str().c_str());
+        Assert::Fail(wss.str().c_str());
     }
 }
 
