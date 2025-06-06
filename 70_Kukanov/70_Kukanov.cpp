@@ -14,23 +14,23 @@ int main(int argc, char* argv[])
 {
     if (argc < 3)
     {
-        cerr << "Error." << endl;
+        cerr << "Error: Expected 3 arguments. Usage: program.exe ./input.txt ./output.txt" << endl;
         return 1;
     }
 
-    string inputFilename = argv[1];
-    string outputFilename = argv[2];
+    string inputFilename = argv[1];     //Считать из параметров командной строки путь к входному файлу 
+    string outputFilename = argv[2];    //Считать из параметров командной строки путь для выходных файлов 
     vector<string> inputData;
     vector<string> outputData;
     set<Error> errors;
     set<Figure> figures;
 
-    readDataFromFile(inputFilename, inputData, errors);
+    readDataFromFile(inputFilename, inputData, errors);         //##Считывание данных из файла##
 
-    string errorString = composeErrorOutput(inputData, errors);
+    string errorString = composeErrorOutput(inputData, errors); //##Создание строки вывода ошибки при ее наличии##
 
-    if (!errorString.empty()) {
-        cerr << errorString << endl;
+    if (!errorString.empty()) {         //Если сообщение об ошибке не пустое
+        cerr << errorString << endl;    //Вывести ошибку
         return 1;
     }
 
@@ -38,44 +38,44 @@ int main(int argc, char* argv[])
     int columns = 0;
     int maxElementSize = 0;
 
-    int* matrix = parseMatrixData(inputData, errors, &rows, &columns, &maxElementSize);
+    int* matrix = parseMatrixData(inputData, errors, &rows, &columns, &maxElementSize); //##Обработать считанные данные##
 
-    if (errors.empty()) {
-        extractLargestFiguresFromMatrix(matrix, rows, columns, figures);
+    if (errors.empty()) {       //Если обработанные данные не содержат ошибок  
+        extractLargestFiguresFromMatrix(matrix, rows, columns, figures);                //##Найти наибольшие фигуры в матрице## 
 
-        if (!figures.empty()) {
-            generateOutputMatrix(figures, outputData, maxElementSize, rows, columns);
+        if (!figures.empty()) { //Если была найдена хотя бы одна фигура 
+            generateOutputMatrix(figures, outputData, maxElementSize, rows, columns);   //##Сформировать данные для вывода в файл##
         }
-        else {
-            outputData.push_back("no figures");
+        else {                  //Иначе 
+            outputData.push_back("no figures");                                         //Добавить в вектор строк для вывода строку “no figure” 
         }
     }
 
-    bool isOutputCompleted = outputDataToFile(outputFilename, outputData, errors);
-    if (!isOutputCompleted) {
-        cerr << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;
+    bool isOutputCompleted = outputDataToFile(outputFilename, outputData, errors);          //##Вывести данные в файл##
+    if (!isOutputCompleted) {       //Если создание файла для вывода было неудачным 
+        cerr << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;    //Вернуть ошибку о неудаче создания файла 
         return 1;
     }
 
-    return 0;
+    return 0;   //Завершить работу программы 
 }
 
 void readDataFromFile(const string& filename, vector<string>& lines, set<Error>& errors)
 {
     string line;
-    ifstream inFile(filename);
+    ifstream inFile(filename);  //Открыть файл 
 
-    if (!inFile.is_open()) {
-        errors.insert(Error(inFileNotExist, filename));
+    if (!inFile.is_open()) {    //Если файл не был открыт 
+        errors.insert(Error(inFileNotExist, filename)); //Добавить ошибку о неудачном открытии файла 
     }
-    else {
-        while (getline(inFile, line)) {
-            if (!line.empty()) {
-                lines.push_back(line);
+    else {                      //Иначе 
+        while (getline(inFile, line)) {     //Пока не достигнут конец файла, cчитать строку 
+            if (!line.empty()) {            //Если строка не пустая 
+                lines.push_back(line);      //Добавить строку в вектор строк 
             }
         }
 
-        inFile.close();
+        inFile.close(); //Закрыть файл 
     }
 }
 
@@ -120,51 +120,53 @@ int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numbe
 
 bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors)
 {
-    ofstream outFile(filename);
-    if (!outFile.is_open()) {
-        return false;
+    ofstream outFile(filename); //Создать и открыть файл для вывода 
+    if (!outFile.is_open()) {   //Если файл не был создан   
+        return false;           //Вернуть ложь (файл не был создан) 
     }
 
-    if (!errors.empty()) {
-        for (const auto& error : errors) {
-            string errorString = error.generateErrorMessage();
-            outFile << errorString << "\n";
+    if (!errors.empty()) {      //Если ошибки были обнаружены 
+        //Вывести в файл данные об ошибках
+        for (const auto& error : errors) {                      //Для каждой ошибки в errors
+            string errorString = error.generateErrorMessage();  //Создать сообщение об ошибке
+            outFile << errorString << "\n";                     //Вывести сообщение об ошибке в файл
         }
     }
-    else {
-        for (const auto& line : output) {
-            outFile << line << "\n";
+    else {                                  //Иначе 
+        for (const auto& line : output) {   //Для каждой строки output 
+            outFile << line << "\n";        //Вывести строку в файл	
         }
     }
 
-    outFile.close();
-    return true;
+    outFile.close();    //Закрыть файл 
+    return true;        //Вернуть истину (файл был создан) 
 }
 
 void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, const int numberOfColumns, set<Figure>& figures)
 {
-    int largestFigureSize = 2;
-    int* passedMatrix = new int[numberOfRows * numberOfColumns];
-    fill_n(passedMatrix, numberOfRows * numberOfColumns, 0);
+    int largestFigureSize = 2;  //...Считать, что размер наибольшей заданной фигуры равен 2
+    int* passedMatrix = new int[numberOfRows * numberOfColumns];    //...Считать, что ни один элемент матрицы не был пройден
+    fill_n(passedMatrix, numberOfRows * numberOfColumns, 0);        //Заполнение матрицы нулями
 
+    //Для каждого элемента матрицы 
     for (int i = 0; i < numberOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
-            if (*(passedMatrix + i * numberOfColumns + j) == 0) {
+            if (*(passedMatrix + i * numberOfColumns + j) == 0) {   //Если элемент матрицы не был пройден
                 Figure newFigure;
                 int newElement = *(matrix + i * numberOfColumns + j);
-                newFigure.setElementValue(newElement);
+                newFigure.setElementValue(newElement);  //Создание нового объекта класса фигуры
 
-                findFigureInMatrixByGivenElement(matrix, passedMatrix, i, j, newElement, newFigure, numberOfRows, numberOfColumns);
+                findFigureInMatrixByGivenElement(matrix, passedMatrix, i, j, newElement, newFigure, numberOfRows, numberOfColumns); //##Поиск фигуры с этим элементом (Рекурсия)## 
 
                 int newFigureSize = newFigure.figureSize();
-                if (newFigureSize > largestFigureSize) {
-                    figures.clear();
-                    figures.insert(newFigure);
+                if (newFigureSize > largestFigureSize) {        //Если найденная фигура больше текущей наибольшей найденной или текущая наибольшая найденная отсутствует 
+                    figures.clear();                            //Очистить контейнер, содержащий прошлую наибольшую фигуру/фигуры 
+                    figures.insert(newFigure);                  //Добавить в контейнер новую фигуру
 
-                    largestFigureSize = newFigureSize;
+                    largestFigureSize = newFigureSize;          //Обновить размер наибольшей найденной фигуры 
                 }
-                else if (newFigureSize == largestFigureSize) {
-                    figures.insert(newFigure);
+                else if (newFigureSize == largestFigureSize) {  //Иначе если найденная фигура равна текущей наибольшей найденной
+                    figures.insert(newFigure);                  //Добавить в контейнер дополнительную фигуру 
                 }
             }
         }
@@ -173,50 +175,55 @@ void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, 
 
 void findFigureInMatrixByGivenElement(const int* matrix, int* passedMatrix, const int row, const int column, const int element, Figure& newFigure, const int numberOfRows, const int numberOfColumns)
 {
-    *(passedMatrix + row * numberOfColumns + column) = 1;
-    newFigure.addElement(ElementPosition(row, column));
+    *(passedMatrix + row * numberOfColumns + column) = 1;   //Считать, что элемент был пройден 
+    newFigure.addElement(ElementPosition(row, column));     //Добавить элемент в фигуру 
 
-    if ((row + 1 < numberOfRows) && (*(passedMatrix + (row + 1) * numberOfColumns + column) == 0) && (*(matrix + (row + 1) * numberOfColumns + column) == element)) {
-        findFigureInMatrixByGivenElement(matrix, passedMatrix, row + 1, column, element, newFigure, numberOfRows, numberOfColumns);
+    //Если позиция элемента снизу от текущего не выходит за пределы матрицы (позиция новой строки не больше, чем количество строк в матрице) и элемент не был пройден и элемент является частью фигуры 
+    if ((row + 1 < numberOfRows) && (*(passedMatrix + (row + 1) * numberOfColumns + column) == 0) && (*(matrix + (row + 1) * numberOfColumns + column) == element)) {   
+        findFigureInMatrixByGivenElement(matrix, passedMatrix, row + 1, column, element, newFigure, numberOfRows, numberOfColumns); //##Продолжение рекурсии с новым элементом## 
     }
 
-    if ((row - 1 >= 0) && (*(passedMatrix + (row - 1) * numberOfColumns + column) == 0) && (*(matrix + (row - 1) * numberOfColumns + column) == element)) {
-        findFigureInMatrixByGivenElement(matrix, passedMatrix, row - 1, column, element, newFigure, numberOfRows, numberOfColumns);
+    //Если позиция элемента сверху от текущего не выходит за пределы матрицы (позиция новой строки не меньше нуля) и элемент не был пройден и элемент является частью фигуры
+    if ((row - 1 >= 0) && (*(passedMatrix + (row - 1) * numberOfColumns + column) == 0) && (*(matrix + (row - 1) * numberOfColumns + column) == element)) {  
+        findFigureInMatrixByGivenElement(matrix, passedMatrix, row - 1, column, element, newFigure, numberOfRows, numberOfColumns); //##Продолжение рекурсии с новым элементом## 
     }
 
-    if ((column + 1 < numberOfColumns) && (*(passedMatrix + row * numberOfColumns + (column + 1)) == 0) && (*(matrix + row * numberOfColumns + (column + 1)) == element)) {
-        findFigureInMatrixByGivenElement(matrix, passedMatrix, row, column + 1, element, newFigure, numberOfRows, numberOfColumns);
+    //Если позиция элемента справа от текущего не выходит за пределы матрицы (позиция нового столбца не больше, чем количество столбцов в матрице) и элемент не был пройден и элемент является частью фигуры 
+    if ((column + 1 < numberOfColumns) && (*(passedMatrix + row * numberOfColumns + (column + 1)) == 0) && (*(matrix + row * numberOfColumns + (column + 1)) == element)) { 
+        findFigureInMatrixByGivenElement(matrix, passedMatrix, row, column + 1, element, newFigure, numberOfRows, numberOfColumns); //##Продолжение рекурсии с новым элементом## 
     }
 
-    if ((column - 1 >= 0) && (*(passedMatrix + row * numberOfColumns + (column - 1)) == 0) && (*(matrix + row * numberOfColumns + (column - 1)) == element)) {
-        findFigureInMatrixByGivenElement(matrix, passedMatrix, row, column - 1, element, newFigure, numberOfRows, numberOfColumns);
+    //Если позиция элемента слева от текущего не выходит за пределы матрицы (позиция нового столбца не меньше нуля) и элемент не был пройден и элемент является частью фигуры
+    if ((column - 1 >= 0) && (*(passedMatrix + row * numberOfColumns + (column - 1)) == 0) && (*(matrix + row * numberOfColumns + (column - 1)) == element)) {  
+        findFigureInMatrixByGivenElement(matrix, passedMatrix, row, column - 1, element, newFigure, numberOfRows, numberOfColumns); //##Продолжение рекурсии с новым элементом## 
     }
 }
 
 void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, const int maxElementSize, const int numberOfRows, const int numberOfColumns)
 {
-    int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
+    //Рассчитать размер разделителя: длину самого длинного элемента матрицы (maxElementSize) умножить на количество столбцов матрицы и прибавить число, на 1 меньше количества столбцов 
+    int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1); 
     int figureIndex = 1;
-    string separator(separatorLength, '-');
+    string separator(separatorLength, '-'); //Создать строку-разделитель из символов “-”, количество которых равно рассчитанному размеру разделителя 
 
-    for (const auto& figure : figures) {
+    for (const auto& figure : figures) {    //Для каждой фигуры 
         string elementValue = to_string(figure.getElementValue());
 
-        for (int i = 0; i < numberOfRows; i++) {
-            string newString;
+        for (int i = 0; i < numberOfRows; i++) {    //Для каждой строки матрицы 
+            string newString;   //Создать пустую строку 
 
-            for (int j = 0; j < numberOfColumns; j++) {
-                if (!figure.isElementInFigure(ElementPosition(i, j))) {
-                    newString += string(elementValue.size(), '*') + " ";
+            for (int j = 0; j < numberOfColumns; j++) { //Делать numberOfColumns раз 
+                if (!figure.isElementInFigure(ElementPosition(i, j))) {     //Если элемент не принадлежит фигуре 
+                    newString += string(elementValue.size(), '*') + " ";    //Добавить к строке “*” (количество которых равно длине элемента фигуры) и пробел 
                 }
-                else {
-                    newString += elementValue + " ";
+                else {                                  //Иначе 
+                    newString += elementValue + " ";    //Добавить к строке значение элемента и пробел 
                 }
             }
-            output.push_back(newString);
+            output.push_back(newString);    //Добавить строку к контейнеру строк на вывод 
         }
 
-        if (figureIndex != figures.size()) {
+        if (figureIndex != figures.size()) {    //Добавить в контейнер разделитель фигур, если это не последняя фигура 
             output.push_back(separator);
         }
 
@@ -226,27 +233,23 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
 
 bool isInIntRange(const string& number)
 {
-    if (number.size() > 11) {
-        return false;
-    }
-
     try {
-        long long value = stoll(number);
-        return (value >= MIN_MATRIX_ELEMENT_VALUE && value <= MAX_MATRIX_ELEMENT_VALUE);
+        long long value = stoll(number); //Перевести элемент из строки в long long
+        return (value >= MIN_MATRIX_ELEMENT_VALUE && value <= MAX_MATRIX_ELEMENT_VALUE); //Проверить на принадлежность разрешенному диапазону и вернуть результат проверки
     }
-    catch (const exception&) {
-        return false;
+    catch (const exception&) { 
+        return false; //Вернуть ложь(элемент больше, чем long long)
     }
 }
 
 bool isDimensionInRange(const string& dimension) {
-    if (isInIntRange(dimension)) {
-        int size = stoi(dimension);
-        if (size <= MAX_MATRIX_DIMENSION && size > 0) {
+    if (isInIntRange(dimension)) { //Если элемент в диапазоне int
+        int size = stoi(dimension); //Перевести размер из строки в int
+        if (size <= MAX_MATRIX_DIMENSION && size > 0) { //Вернуть истину, если размер матрицы корректный
             return true;
         }
     }
-    return false;
+    return false;   //Вернуть ложь
 }
 
 bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors) 
@@ -321,7 +324,7 @@ void validateMatrixElement(const string& element, const int currentRow, const in
     bool isDigitOnly = true;
     int currentSymbol = 0;
     for (const char symbol : element) {
-        if (!isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {
+        if (isDigitOnly && !isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {
             errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), element));
 
             *isErrorFound = true;
@@ -349,15 +352,15 @@ void validateMatrixElement(const string& element, const int currentRow, const in
 string composeErrorOutput(const vector<string>& inputData, const set<Error>& errors) 
 {
     string errorString = "";
-    if (!errors.empty()) {
+    if (!errors.empty()) {  //Если обнаружена ошибка
         const auto& it = errors.begin();
-        errorString = Error(*it).generateErrorMessage();
+        errorString = Error(*it).generateErrorMessage();    //Создать сообщение об ошибке
     }
-    else if (inputData.size() == 0) {
-        errorString = Error(inFileIsEmpty).generateErrorMessage();
+    else if (inputData.size() == 0) {   //Если файл пустой
+        errorString = Error(inFileIsEmpty).generateErrorMessage();  //Создать сообщение об ошибке
     }
 
-    return errorString;
+    return errorString; //Вернуть сообщение об ошибке
 }
 
 // 4. написать комментарии
