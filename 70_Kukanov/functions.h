@@ -28,3 +28,5 @@ bool isDimensionInRange(string dimension);
 bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors);
 
 void parseMatrixRow(const int currentRow, string line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound);
+
+void validateMatrixElement(const string element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound);

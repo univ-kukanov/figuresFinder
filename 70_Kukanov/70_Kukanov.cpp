@@ -311,45 +311,45 @@ void parseMatrixRow(const int currentRow, string line, const int numberOfColumns
 
     if (splitElements.size() > numberOfColumns) {
         errors.insert(Error(tooManyElements, numberOfColumns, splitElements.size(), currentRow));
-
         *isErrorFound = true;
     }
     else if (splitElements.size() < numberOfColumns) {
         errors.insert(Error(tooFewElements, numberOfColumns, splitElements.size(), currentRow));
-
         *isErrorFound = true;
     }
 
     for (const auto& el : splitElements) {
         ++currentColumn;
-        bool isDigitOnly = true;
-        int currentSymbol = 0;
-        for (const char symbol : el) {
-            if (!isdigit(symbol)) {
-                if (currentSymbol != 0 || symbol != '-') {
-                    errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
+        validateMatrixElement(el, currentRow, currentColumn, numberOfColumns, maxElementSize, matrix, errors, isErrorFound);
+    }
+}
 
-                    *isErrorFound = true;
-                    isDigitOnly = false;
-                }
-            }
-            ++currentSymbol;
-        }
-
-        if (isDigitOnly && !isInIntRange(el)) {
-            errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), el));
+void validateMatrixElement(const string element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) {
+    bool isDigitOnly = true;
+    int currentSymbol = 0;
+    for (const char symbol : element) {
+        if (!isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {
+            errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), element));
 
             *isErrorFound = true;
+            isDigitOnly = false;
+        }
+        ++currentSymbol;
+    }
+
+    if (isDigitOnly && !isInIntRange(element)) {
+        errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), element));
+
+        *isErrorFound = true;
+    }
+
+    if (!*isErrorFound) {
+        int newElement = stoi(element);
+        if (to_string(newElement).size() > *maxElementSize) {
+            *maxElementSize = to_string(newElement).size();
         }
 
-        if (!*isErrorFound) {
-            int newElement = stoi(el);
-            if (to_string(newElement).size() > *maxElementSize) {
-                *maxElementSize = to_string(newElement).size();
-            }
-
-            matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;
-        }
+        matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;
     }
 }
 
