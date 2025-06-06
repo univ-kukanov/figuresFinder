@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    bool isOutputComplieted = outputDataToFile(outputFilename, outputData, errors);
-    if (!isOutputComplieted) {
+    bool isOutputCompleted = outputDataToFile(outputFilename, outputData, errors);
+    if (!isOutputCompleted) {
         cerr << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;
         return 1;
     }
@@ -115,7 +115,7 @@ int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numbe
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors)
@@ -261,7 +261,7 @@ bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, 
         bool isDigitOnly = true;
         for (const auto& dim : dimensions) {
             for (const char symbol : dim) {
-                if (!isdigit(symbol)) {
+                if (isDigitOnly && !isdigit(symbol)) {
                     isDigitOnly = false;
                 }
             }
@@ -290,7 +290,7 @@ bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, 
     return isErrorFound;
 }
 
-void parseMatrixRow(const int currentRow, string line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
+void parseMatrixRow(const int currentRow, const string& line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
 {
     int currentColumn = 0;
     vector<string> splitElements;
@@ -316,7 +316,7 @@ void parseMatrixRow(const int currentRow, string line, const int numberOfColumns
     }
 }
 
-void validateMatrixElement(const string element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
+void validateMatrixElement(const string& element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
 {
     bool isDigitOnly = true;
     int currentSymbol = 0;

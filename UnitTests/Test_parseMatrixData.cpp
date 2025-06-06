@@ -89,7 +89,7 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
     }
 
     // Сравнение матрицы
-    if (exp_matrix != NULL && matrix != NULL) {
+    if (exp_matrix != nullptr && matrix != nullptr) {
         for (int i = 0; i < exp_numberOfRows; ++i) {
             for (int j = 0; j < exp_numberOfColumns; ++j) {
                 const int index = i * exp_numberOfColumns + j;
@@ -287,7 +287,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 6. В строке с размерами 5 чисел
@@ -314,7 +314,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 7. В строке с размерами кол-во строк не является числом
@@ -341,7 +341,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 8. В строке с размерами кол-во столбцов не является числом
@@ -368,7 +368,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 9. Кол-во строк в матрице больше/меньше разрешенного диапазона
@@ -391,7 +391,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 10. Кол-во столбцов в матрице больше/меньше разрешенного диапазона
@@ -414,7 +414,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 11. Кол-во строк и столбцов в матрице больше/меньше разрешенного диапазона
@@ -440,7 +440,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 12. Матрица минимального размера 1x1
@@ -557,7 +557,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 16. Недостающее/избыточное кол-во элементов в строках, пустая строка
@@ -589,7 +589,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 17. Недостающее количество строк
@@ -615,7 +615,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 18. Наличие в строке букв других языков
@@ -644,7 +644,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 19. В матрице слишком много строк
@@ -670,7 +670,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
 
         // 20. Размеры матрицы и элементы имеют ведущие нули
@@ -739,7 +739,7 @@ namespace Test_parseMatrixData
 
             int* matrix = parseMatrixData(lines, errors, &numberOfRows, &numberOfColumns, &maxElementSize);
 
-            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, NULL, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
+            assertMatrixData(matrix, errors, numberOfRows, numberOfColumns, maxElementSize, nullptr, exp_errors, exp_numberOfRows, exp_numberOfColumns, exp_maxElementSize);
         }
     };
 }

@@ -25,7 +25,7 @@ const Figure* findFigureByPosition(const set<Figure>& figures, const ElementPosi
             return &fig;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 // Сравнения фигур
