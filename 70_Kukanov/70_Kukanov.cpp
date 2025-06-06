@@ -104,7 +104,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     else {
         bool isDigitOnly = true;
         for (const auto& dim : dimensions) {
-            for (char symbol : dim) {
+            for (const char symbol : dim) {
                 if (!isdigit(symbol)) {
                     isDigitOnly = false;
                 }
@@ -156,7 +156,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     int currentRow = 0;
     for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
 
-        currentRow++;
+        ++currentRow;
 
         int currentColumn = 0;
         vector<string> splitElements;
@@ -178,11 +178,11 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
             isErrorFound = true;
         }
 
-        for (auto& el : splitElements) {
-            currentColumn++;
+        for (const auto& el : splitElements) {
+            ++currentColumn;
             bool isDigitOnly = true;
             int currentSymbol = 0;
-            for (unsigned char symbol : el) {
+            for (const char symbol : el) {
                 if (!isdigit(symbol)) {
                     if (currentSymbol != 0 || symbol != '-') {
                         errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
@@ -191,7 +191,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
                         isDigitOnly = false;
                     }
                 }
-                currentSymbol++;
+                ++currentSymbol;
             }
 
             if (isDigitOnly && !isInIntRange(el)) {
@@ -227,15 +227,14 @@ bool outputDataToFile(string filename, vector<string>& output, set<Error>& error
     }
 
     if (!errors.empty()) {
-        for (auto it = errors.begin(); it != errors.end(); ++it) {
-            Error error = *it;
+        for (const auto& error : errors) {
             string errorString = error.generateErrorMessage();
             outFile << errorString << "\n";
         }
     }
     else {
-        for (auto it = output.begin(); it != output.end(); ++it) {
-            outFile << *it << "\n";
+        for (const auto& line : output) {
+            outFile << line << "\n";
         }
     }
 
@@ -298,29 +297,31 @@ void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, i
 void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns)
 {
     int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
+    int figureIndex = 1;
     string separator(separatorLength, '-');
 
-    for (auto it = figures.begin(); it != figures.end(); ++it) {
-        Figure currentFigure = *it;
-        string currentElementValue = to_string(currentFigure.getElementValue());
+    for (const auto& figure : figures) {
+        string elementValue = to_string(figure.getElementValue());
 
         for (int i = 0; i < numberOfRows; i++) {
             string newString;
 
             for (int j = 0; j < numberOfColumns; j++) {
-                if (!currentFigure.isElementInFigure(ElementPosition(i, j))) {
-                    newString += string(currentElementValue.size(), '*') + " ";
+                if (!figure.isElementInFigure(ElementPosition(i, j))) {
+                    newString += string(elementValue.size(), '*') + " ";
                 }
                 else {
-                    newString += currentElementValue + " ";
+                    newString += elementValue + " ";
                 }
             }
             output.push_back(newString);
         }
 
-        if (next(it) != figures.end()) {
+        if (figureIndex != figures.size()) {
             output.push_back(separator);
         }
+
+        ++figureIndex;
     }
 }
 
@@ -348,3 +349,9 @@ bool isDimensionInRange(string dimension) {
     }
     return false;
 }
+
+
+// 1. parse разбить на 2 подфункции
+// 2. привести итераторы к одному виду
+// 3. ввести глобальные переменные
+// 4. написать комментарии

@@ -278,7 +278,7 @@ namespace Test_extractLargestFiguresFromMatrix
         }
 
         // 6. Матрица минимального размера 1x1
-        TEST_METHOD(matrixSize1x1O)
+        TEST_METHOD(matrixSize1x1)
         {
             const int numberOfRows = 1;
             const int numberOfColumns = 1;
