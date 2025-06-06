@@ -9,21 +9,21 @@ const int MAX_MATRIX_DIMENSION = 1000;
 const int MAX_MATRIX_ELEMENT_VALUE = 2147483647;
 const int MIN_MATRIX_ELEMENT_VALUE = -2147483647 - 1;
 
-void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors);
+void readDataFromFile(const string& filename, vector<string>& lines, set<Error>& errors);
 
-int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize);
+int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize);
 
-bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors);
+bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors);
 
-void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOfColumns, set<Figure>& figures);
+void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, const int numberOfColumns, set<Figure>& figures);
 
-void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, int column, int element, Figure& newFigure, int numberOfRows, int numberOfColumns);
+void findFigureInMatrixByGivenElement(const int* matrix, int* passedMatrix, const int row, const int column, const int element, Figure& newFigure, const int numberOfRows, const int numberOfColumns);
 
-void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns);
+void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, const int maxElementSize, const int numberOfRows, const int numberOfColumns);
 
-bool isInIntRange(string number);
+bool isInIntRange(const string& number);
 
-bool isDimensionInRange(string dimension);
+bool isDimensionInRange(const string& dimension);
 
 bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors);
 

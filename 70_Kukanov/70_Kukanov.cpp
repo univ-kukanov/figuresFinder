@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors)
+void readDataFromFile(const string& filename, vector<string>& lines, set<Error>& errors)
 {
     string line;
     ifstream inFile(filename);
@@ -87,7 +87,7 @@ void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors
     }
 }
 
-int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize)
+int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize)
 {
     istringstream dimensionsStream(lines[0]);
     vector<string> dimensions;
@@ -126,7 +126,7 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
     return NULL;
 }
 
-bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
+bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors)
 {
     ofstream outFile(filename);
     if (!outFile.is_open()) {
@@ -149,7 +149,7 @@ bool outputDataToFile(string filename, vector<string>& output, set<Error>& error
     return true;
 }
 
-void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOfColumns, set<Figure>& figures)
+void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, const int numberOfColumns, set<Figure>& figures)
 {
     int largestFigureSize = 2;
     int* passedMatrix = new int[numberOfRows * numberOfColumns];
@@ -179,7 +179,7 @@ void extractLargestFiguresFromMatrix(int* matrix, int numberOfRows, int	numberOf
     }
 }
 
-void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, int column, int element, Figure& newFigure, int numberOfRows, int numberOfColumns)
+void findFigureInMatrixByGivenElement(const int* matrix, int* passedMatrix, const int row, const int column, const int element, Figure& newFigure, const int numberOfRows, const int numberOfColumns)
 {
     *(passedMatrix + row * numberOfColumns + column) = 1;
     newFigure.addElement(ElementPosition(row, column));
@@ -201,7 +201,7 @@ void findFigureInMatrixByGivenElement(int* matrix, int* passedMatrix, int row, i
     }
 }
 
-void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxElementSize, int numberOfRows, int numberOfColumns)
+void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, const int maxElementSize, const int numberOfRows, const int numberOfColumns)
 {
     int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
     int figureIndex = 1;
@@ -232,7 +232,7 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
     }
 }
 
-bool isInIntRange(string number)
+bool isInIntRange(const string& number)
 {
     if (number.size() > 11) {
         return false;
@@ -247,7 +247,7 @@ bool isInIntRange(string number)
     }
 }
 
-bool isDimensionInRange(string dimension) {
+bool isDimensionInRange(const string& dimension) {
     if (isInIntRange(dimension)) {
         int size = stoi(dimension);
         if (size <= MAX_MATRIX_DIMENSION && size > 0) {
@@ -353,5 +353,4 @@ void validateMatrixElement(const string element, const int currentRow, const int
     }
 }
 
-// 1. parse разбить на 2 подфункции
 // 4. написать комментарии
