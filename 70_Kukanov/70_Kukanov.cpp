@@ -99,86 +99,31 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
 
     bool isErrorFound = parseMatrixDimensions(dimensions, numberOfRows, numberOfColumns, errors);
 
-    if (isErrorFound) {
-        return NULL;
-    }
+    if (!isErrorFound) {
+        int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
+        *maxElementSize = 0;
 
-    int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
-    *maxElementSize = 0;
-
-    if (lines.size() - 1 < *numberOfRows) {
-        errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));
-        isErrorFound = true;
-    }
-    else if (lines.size() - 1 > *numberOfRows) {
-        errors.insert(Error(tooManyRows, *numberOfRows, lines.size() - 1));
-        isErrorFound = true;
-    }
-
-    int currentRow = 0;
-    for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
-
-        ++currentRow;
-
-        int currentColumn = 0;
-        vector<string> splitElements;
-        istringstream elements(*it);
-        string element;
-
-        while (elements >> element) {
-            splitElements.push_back(element);
-        }
-
-        if (splitElements.size() > *numberOfColumns) {
-            errors.insert(Error(tooManyElements, *numberOfColumns, splitElements.size(), currentRow));
-
+        if (lines.size() - 1 < *numberOfRows) {
+            errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));
             isErrorFound = true;
         }
-        else if (splitElements.size() < *numberOfColumns) {
-            errors.insert(Error(tooFewElements, *numberOfColumns, splitElements.size(), currentRow));
-
+        else if (lines.size() - 1 > *numberOfRows) {
+            errors.insert(Error(tooManyRows, *numberOfRows, lines.size() - 1));
             isErrorFound = true;
         }
 
-        for (const auto& el : splitElements) {
-            ++currentColumn;
-            bool isDigitOnly = true;
-            int currentSymbol = 0;
-            for (const char symbol : el) {
-                if (!isdigit(symbol)) {
-                    if (currentSymbol != 0 || symbol != '-') {
-                        errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
+        int currentRow = 0;
+        for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
+            ++currentRow;
+            parseMatrixRow(currentRow, *it, *numberOfColumns, maxElementSize, matrix, errors, &isErrorFound);
+        }
 
-                        isErrorFound = true;
-                        isDigitOnly = false;
-                    }
-                }
-                ++currentSymbol;
-            }
-
-            if (isDigitOnly && !isInIntRange(el)) {
-                errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), el));
-
-                isErrorFound = true;
-            }
-
-            if (!isErrorFound) {
-                int newElement = stoi(el);
-                if (to_string(newElement).size() > *maxElementSize) {
-                    *maxElementSize = to_string(newElement).size();
-                }
-
-                matrix[(currentRow - 1) * (*numberOfColumns) + (currentColumn - 1)] = newElement;
-            }
+        if (!isErrorFound) {
+            return matrix;
         }
     }
 
-
-    if (!errors.empty()) {
-        return NULL;
-    }
-
-    return matrix;
+    return NULL;
 }
 
 bool outputDataToFile(string filename, vector<string>& output, set<Error>& errors)
@@ -351,6 +296,61 @@ bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, 
     }
 
     return isErrorFound;
+}
+
+void parseMatrixRow(const int currentRow, string line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
+{
+    int currentColumn = 0;
+    vector<string> splitElements;
+    istringstream elements(line);
+    string element;
+
+    while (elements >> element) {
+        splitElements.push_back(element);
+    }
+
+    if (splitElements.size() > numberOfColumns) {
+        errors.insert(Error(tooManyElements, numberOfColumns, splitElements.size(), currentRow));
+
+        *isErrorFound = true;
+    }
+    else if (splitElements.size() < numberOfColumns) {
+        errors.insert(Error(tooFewElements, numberOfColumns, splitElements.size(), currentRow));
+
+        *isErrorFound = true;
+    }
+
+    for (const auto& el : splitElements) {
+        ++currentColumn;
+        bool isDigitOnly = true;
+        int currentSymbol = 0;
+        for (const char symbol : el) {
+            if (!isdigit(symbol)) {
+                if (currentSymbol != 0 || symbol != '-') {
+                    errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), el));
+
+                    *isErrorFound = true;
+                    isDigitOnly = false;
+                }
+            }
+            ++currentSymbol;
+        }
+
+        if (isDigitOnly && !isInIntRange(el)) {
+            errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), el));
+
+            *isErrorFound = true;
+        }
+
+        if (!*isErrorFound) {
+            int newElement = stoi(el);
+            if (to_string(newElement).size() > *maxElementSize) {
+                *maxElementSize = to_string(newElement).size();
+            }
+
+            matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;
+        }
+    }
 }
 
 // 1. parse разбить на 2 подфункции
