@@ -27,17 +27,9 @@ int main(int argc, char* argv[])
 
     readDataFromFile(inputFilename, inputData, errors);
 
-    if (!errors.empty()) {
-        auto it = errors.begin();
-        Error error = *it;
-        string errorString = error.generateErrorMessage();
-        cerr << errorString << endl;
-        return 1;
-    }
+    string errorString = composeErrorOutput(inputData, errors);
 
-    if (inputData.size() == 0) {
-        Error error(inFileIsEmpty);
-        string errorString = error.generateErrorMessage();
+    if (!errorString.empty()) {
         cerr << errorString << endl;
         return 1;
     }
@@ -324,7 +316,8 @@ void parseMatrixRow(const int currentRow, string line, const int numberOfColumns
     }
 }
 
-void validateMatrixElement(const string element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) {
+void validateMatrixElement(const string element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
+{
     bool isDigitOnly = true;
     int currentSymbol = 0;
     for (const char symbol : element) {
@@ -351,6 +344,20 @@ void validateMatrixElement(const string element, const int currentRow, const int
 
         matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;
     }
+}
+
+string composeErrorOutput(const vector<string>& inputData, const set<Error>& errors) 
+{
+    string errorString = "";
+    if (!errors.empty()) {
+        const auto& it = errors.begin();
+        errorString = Error(*it).generateErrorMessage();
+    }
+    else if (inputData.size() == 0) {
+        errorString = Error(inFileIsEmpty).generateErrorMessage();
+    }
+
+    return errorString;
 }
 
 // 4. написать комментарии
