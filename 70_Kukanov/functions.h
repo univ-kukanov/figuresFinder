@@ -5,6 +5,10 @@
 #include "Error.h"
 #include "Figure.h"
 
+const int MAX_MATRIX_DIMENSION = 1000;
+const int MAX_MATRIX_ELEMENT_VALUE = 2147483647;
+const int MIN_MATRIX_ELEMENT_VALUE = -2147483647 - 1;
+
 void readDataFromFile(string filename, vector<string>& lines, set<Error>& errors);
 
 int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize);

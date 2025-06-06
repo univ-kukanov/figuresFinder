@@ -333,7 +333,7 @@ bool isInIntRange(string number)
 
     try {
         long long value = stoll(number);
-        return (value >= -2147483648 && value <= 2147483647);
+        return (value >= MIN_MATRIX_ELEMENT_VALUE && value <= MAX_MATRIX_ELEMENT_VALUE);
     }
     catch (const exception&) {
         return false;
@@ -343,7 +343,7 @@ bool isInIntRange(string number)
 bool isDimensionInRange(string dimension) {
     if (isInIntRange(dimension)) {
         int size = stoi(dimension);
-        if (size <= 1000 && size > 0) {
+        if (size <= MAX_MATRIX_DIMENSION && size > 0) {
             return true;
         }
     }
@@ -352,6 +352,5 @@ bool isDimensionInRange(string dimension) {
 
 
 // 1. parse разбить на 2 подфункции
-// 2. привести итераторы к одному виду
 // 3. ввести глобальные переменные
 // 4. написать комментарии
