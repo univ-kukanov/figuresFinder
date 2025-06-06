@@ -24,3 +24,5 @@ void generateOutputMatrix(set<Figure>& figures, vector<string>& output, int maxE
 bool isInIntRange(string number);
 
 bool isDimensionInRange(string dimension);
+
+bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors);

@@ -97,52 +97,14 @@ int* parseMatrixData(vector<string>& lines, set<Error>& errors, int* numberOfRow
         dimensions.push_back(dimension);
     }
 
-    if (dimensions.size() != 2) {
-        errors.insert(Error(incorrectDimensionsCount));
+    bool isErrorFound = parseMatrixDimensions(dimensions, numberOfRows, numberOfColumns, errors);
+
+    if (isErrorFound) {
         return NULL;
-    }
-    else {
-        bool isDigitOnly = true;
-        for (const auto& dim : dimensions) {
-            for (const char symbol : dim) {
-                if (!isdigit(symbol)) {
-                    isDigitOnly = false;
-                }
-            }
-        }
-
-        if (!isDigitOnly) {
-            errors.insert(Error(matrixSizeNotInt));
-            return NULL;
-        }
-
-        if (!isDimensionInRange(dimensions[0])) {
-            errors.insert(Error(rowCountError));
-            if (!isDimensionInRange(dimensions[1])) {
-                errors.insert(Error(columnCountError));
-                return NULL;
-            }
-            return NULL;
-        }
-        if (!isDimensionInRange(dimensions[1])) {
-            errors.insert(Error(columnCountError));
-            return NULL;
-        }
-
-        *numberOfRows = stoi(dimensions[0]);
-        *numberOfColumns = stoi(dimensions[1]);
-
-        if (!errors.empty()) {
-            *numberOfRows = 0;
-            *numberOfColumns = 0;
-            return NULL;
-        }
     }
 
     int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
     *maxElementSize = 0;
-
-    bool isErrorFound = false;
 
     if (lines.size() - 1 < *numberOfRows) {
         errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));
@@ -350,7 +312,46 @@ bool isDimensionInRange(string dimension) {
     return false;
 }
 
+bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors) 
+{
+    bool isErrorFound = false;
+
+    if (dimensions.size() != 2) {
+        errors.insert(Error(incorrectDimensionsCount));
+        isErrorFound = true;
+    }
+    else {
+        bool isDigitOnly = true;
+        for (const auto& dim : dimensions) {
+            for (const char symbol : dim) {
+                if (!isdigit(symbol)) {
+                    isDigitOnly = false;
+                }
+            }
+        }
+
+        if (!isDigitOnly) {
+            errors.insert(Error(matrixSizeNotInt));
+            isErrorFound = true;
+        }
+
+        if (isDigitOnly && !isDimensionInRange(dimensions[0])) {
+            errors.insert(Error(rowCountError));
+            isErrorFound = true;
+        }
+        if (isDigitOnly && !isDimensionInRange(dimensions[1])) {
+            errors.insert(Error(columnCountError));
+            isErrorFound = true;
+        }
+
+        if (!isErrorFound) {
+            *numberOfRows = stoi(dimensions[0]);
+            *numberOfColumns = stoi(dimensions[1]);
+        }
+    }
+
+    return isErrorFound;
+}
 
 // 1. parse разбить на 2 подфункции
-// 3. ввести глобальные переменные
 // 4. написать комментарии
