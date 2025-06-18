@@ -1,4 +1,4 @@
-#include "ElementPosition.h"
+﻿#include "ElementPosition.h"
 
 void ElementPosition::setRow(int newRow) {
 	row = newRow;

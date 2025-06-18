@@ -1,19 +1,20 @@
 #pragma once
 
+//!Позиция элемента матрицы
 class ElementPosition {
 private:
-	int row = -1;
-	int column = -1;
+	int row = -1;		//!<Строка
+	int column = -1;	//!<Столбец
 public:
-	void setRow(int newRow);
-	void setColumn(int newColumn);
+	void setRow(int newRow);		//!<Сеттер строки
+	void setColumn(int newColumn);	//!<Сеттер столбца
 
-	int getRow() const;
-	int getColumn() const;
+	int getRow() const;				//!<Геттер строки
+	int getColumn() const;			//!<Геттер столбца
 
-	bool operator==(const ElementPosition& other) const;
-	bool operator<(const ElementPosition& other) const;
+	bool operator==(const ElementPosition& other) const;	//!<Перегрузка оператора "=="
+	bool operator<(const ElementPosition& other) const;		//!<Перегрузка оператора "<"
 
-	ElementPosition();
-	ElementPosition(int newRow, int newColumn);
+	ElementPosition();										//!<Стандартный конструктор
+	ElementPosition(int newRow, int newColumn);				//!<Конструктор с заданной позицией элемента
 };
