@@ -4,36 +4,36 @@
 
 using namespace std;
 
-//!Фигура
+//!РљР»Р°СЃСЃ, РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёР№ С„РёРіСѓСЂСѓ РІ РјР°С‚СЂРёС†Рµ
 class Figure {
 private:
-	set<ElementPosition> positions;	//!<Позиции элементов фигуры
-	int element;					//!<Значение элемента фигуры
+	set<ElementPosition> positions;	//!<РџРѕР·РёС†РёРё СЌР»РµРјРµРЅС‚РѕРІ С„РёРіСѓСЂС‹
+	int element;					//!<Р—РЅР°С‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° С„РёРіСѓСЂС‹
 public:
-	/*! Добавление элемента в фигуру
-		\param[in] pos - позиция элемента
+	/*! Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ С„РёРіСѓСЂСѓ
+		\param[in] pos - РїРѕР·РёС†РёСЏ СЌР»РµРјРµРЅС‚Р°
 	*/
 	void addElement(ElementPosition pos);	
 
-	/*! Получение размера фигуры
-		\return - размер фигуры
+	/*! РџРѕР»СѓС‡РµРЅРёРµ СЂР°Р·РјРµСЂР° С„РёРіСѓСЂС‹
+		\return - СЂР°Р·РјРµСЂ С„РёРіСѓСЂС‹
 	*/
 	int figureSize() const;		
 
-	/*! Проверка принадлежности элемента к фигуре
-		\param[in] pos - позиция элемента
-		\return - принадлежит ли элемент фигуре
+	/*! РџСЂРѕРІРµСЂРєР° РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚Рё СЌР»РµРјРµРЅС‚Р° Рє С„РёРіСѓСЂРµ
+		\param[in] pos - РїРѕР·РёС†РёСЏ СЌР»РµРјРµРЅС‚Р°
+		\return - РїСЂРёРЅР°РґР»РµР¶РёС‚ Р»Рё СЌР»РµРјРµРЅС‚ С„РёРіСѓСЂРµ
 	*/
 	bool isElementInFigure(ElementPosition pos) const;
 
-	void setElementValue(int newElement);				//!<Сеттер значения элемента
+	void setElementValue(int newElement);				//!<РЎРµС‚С‚РµСЂ Р·РЅР°С‡РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р°
 
-	int getElementValue() const;						//!<Геттер значения элемента
-	const set<ElementPosition>& getPositions() const;	//!<Геттер всех позиций элементов фигуры
+	int getElementValue() const;						//!<Р“РµС‚С‚РµСЂ Р·РЅР°С‡РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р°
+	const set<ElementPosition>& getPositions() const;	//!<Р“РµС‚С‚РµСЂ РІСЃРµС… РїРѕР·РёС†РёР№ СЌР»РµРјРµРЅС‚РѕРІ С„РёРіСѓСЂС‹
 
-	Figure(set<ElementPosition> pos, int el);			//!<Конструктор с заданными позициями элементов и значением элемента
-	Figure();											//!<Стандартный конструктор
+	Figure(set<ElementPosition> pos, int el);			//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ Р·Р°РґР°РЅРЅС‹РјРё РїРѕР·РёС†РёСЏРјРё СЌР»РµРјРµРЅС‚РѕРІ Рё Р·РЅР°С‡РµРЅРёРµРј СЌР»РµРјРµРЅС‚Р°
+	Figure();											//!<РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 
-	bool operator<(const Figure& other) const;			//!<Перегрузка оператора "<"
-	bool operator==(const Figure& other) const;			//!<Перегрузка оператора "=="
+	bool operator<(const Figure& other) const;			//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "<"
+	bool operator==(const Figure& other) const;			//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "=="
 };

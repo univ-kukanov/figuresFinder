@@ -1,20 +1,20 @@
 #pragma once
 
-//!Позиция элемента матрицы
+//!РљР»Р°СЃСЃ, РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёР№ РїРѕР·РёС†РёСЋ СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
 class ElementPosition {
 private:
-	int row = -1;		//!<Строка
-	int column = -1;	//!<Столбец
+	int row = -1;		//!<РЎС‚СЂРѕРєР°
+	int column = -1;	//!<РЎС‚РѕР»Р±РµС†
 public:
-	void setRow(int newRow);		//!<Сеттер строки
-	void setColumn(int newColumn);	//!<Сеттер столбца
+	void setRow(int newRow);		//!<РЎРµС‚С‚РµСЂ СЃС‚СЂРѕРєРё
+	void setColumn(int newColumn);	//!<РЎРµС‚С‚РµСЂ СЃС‚РѕР»Р±С†Р°
 
-	int getRow() const;				//!<Геттер строки
-	int getColumn() const;			//!<Геттер столбца
+	int getRow() const;				//!<Р“РµС‚С‚РµСЂ СЃС‚СЂРѕРєРё
+	int getColumn() const;			//!<Р“РµС‚С‚РµСЂ СЃС‚РѕР»Р±С†Р°
 
-	bool operator==(const ElementPosition& other) const;	//!<Перегрузка оператора "=="
-	bool operator<(const ElementPosition& other) const;		//!<Перегрузка оператора "<"
+	bool operator==(const ElementPosition& other) const;	//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "=="
+	bool operator<(const ElementPosition& other) const;		//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "<"
 
-	ElementPosition();										//!<Стандартный конструктор
-	ElementPosition(int newRow, int newColumn);				//!<Конструктор с заданной позицией элемента
+	ElementPosition();										//!<РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	ElementPosition(int newRow, int newColumn);				//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ Р·Р°РґР°РЅРЅРѕР№ РїРѕР·РёС†РёРµР№ СЌР»РµРјРµРЅС‚Р°
 };

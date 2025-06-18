@@ -1,4 +1,4 @@
-﻿#include "Error.h"
+#include "Error.h"
 
 Error::Error() {
 	type = noError;

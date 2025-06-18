@@ -6,112 +6,112 @@
 #include "Figure.h"
 
 
-const int MAX_MATRIX_DIMENSION = 1000;					//!<Максимальный размер матрицы
-const int MAX_MATRIX_ELEMENT_VALUE = 2147483647;		//!<Максимальный допустимый элемент матрицы
-const int MIN_MATRIX_ELEMENT_VALUE = -2147483647 - 1;	//!<Минимальный допустимый элемент матрицы
+const int MAX_MATRIX_DIMENSION = 1000;					//!<РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РјР°С‚СЂРёС†С‹
+const int MAX_MATRIX_ELEMENT_VALUE = 2147483647;		//!<РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РґРѕРїСѓСЃС‚РёРјС‹Р№ СЌР»РµРјРµРЅС‚ РјР°С‚СЂРёС†С‹
+const int MIN_MATRIX_ELEMENT_VALUE = -2147483647 - 1;	//!<РњРёРЅРёРјР°Р»СЊРЅС‹Р№ РґРѕРїСѓСЃС‚РёРјС‹Р№ СЌР»РµРјРµРЅС‚ РјР°С‚СЂРёС†С‹
 
 
-/*! Функция считывания данных с файла
-	\param[in] filename - файл, откуда будут считываться данные
-	\param[out] lines - считанные с файла строки
-	\param[out] errors - контейнер с ошибками
+/*! Р¤СѓРЅРєС†РёСЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ РґР°РЅРЅС‹С… СЃ С„Р°Р№Р»Р°
+	\param[in] filename - С„Р°Р№Р», РѕС‚РєСѓРґР° Р±СѓРґСѓС‚ СЃС‡РёС‚С‹РІР°С‚СЊСЃСЏ РґР°РЅРЅС‹Рµ
+	\param[out] lines - СЃС‡РёС‚Р°РЅРЅС‹Рµ СЃ С„Р°Р№Р»Р° СЃС‚СЂРѕРєРё
+	\param[out] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
 */
 void readDataFromFile(const string& filename, vector<string>& lines, set<Error>& errors);
 
-/*! Функция обработки считанных из матрицы строк в матрицу
-	\param[in] lines - считанные с файла строки
-	\param[out] errors - контейнер с ошибками
-	\param[out] numberOfRows - количество строк матрицы
-	\param[out] numberOfColumns - количество столбцов матрицы
-	\param[out] maxElementSize - длина самого длинного элемента матрицы
-	\return - указатель на созданную матрицу
+/*! Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃС‡РёС‚Р°РЅРЅС‹С… РёР· РјР°С‚СЂРёС†С‹ СЃС‚СЂРѕРє РІ РјР°С‚СЂРёС†Сѓ
+	\param[in] lines - СЃС‡РёС‚Р°РЅРЅС‹Рµ СЃ С„Р°Р№Р»Р° СЃС‚СЂРѕРєРё
+	\param[out] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\param[out] numberOfRows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹
+	\param[out] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РјР°С‚СЂРёС†С‹
+	\param[out] maxElementSize - РґР»РёРЅР° СЃР°РјРѕРіРѕ РґР»РёРЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	\return - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРѕР·РґР°РЅРЅСѓСЋ РјР°С‚СЂРёС†Сѓ
 */
 int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize);
 
-/*! Функция вывода данных в файл
-	\param[in] filename - файл, куда будут выводиться данные
-	\param[in] output - вектор выводимых строк
-	\param[in] errors - контейнер с ошибками
-	\return - удачно ли создан файл
+/*! Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РґР°РЅРЅС‹С… РІ С„Р°Р№Р»
+	\param[in] filename - С„Р°Р№Р», РєСѓРґР° Р±СѓРґСѓС‚ РІС‹РІРѕРґРёС‚СЊСЃСЏ РґР°РЅРЅС‹Рµ
+	\param[in] output - РІРµРєС‚РѕСЂ РІС‹РІРѕРґРёРјС‹С… СЃС‚СЂРѕРє
+	\param[in] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\return - СѓРґР°С‡РЅРѕ Р»Рё СЃРѕР·РґР°РЅ С„Р°Р№Р»
 */
 bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors);
 
-/*! Функия выделения наибольших фигур из матрицы
-	\param[in] matrix - матрица с числами
-	\param[in] numberOfRows - количество столбцов матрицы
-	\param[in] numberOfColumns - количество строк матрицы
-	\param[out] figures - найденные наибольшие фигуры
+/*! Р¤СѓРЅРєРёСЏ РІС‹РґРµР»РµРЅРёСЏ РЅР°РёР±РѕР»СЊС€РёС… С„РёРіСѓСЂ РёР· РјР°С‚СЂРёС†С‹
+	\param[in] matrix - РјР°С‚СЂРёС†Р° СЃ С‡РёСЃР»Р°РјРё
+	\param[in] numberOfRows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РјР°С‚СЂРёС†С‹
+	\param[in] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹
+	\param[out] figures - РЅР°Р№РґРµРЅРЅС‹Рµ РЅР°РёР±РѕР»СЊС€РёРµ С„РёРіСѓСЂС‹
 */
 void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, const int numberOfColumns, set<Figure>& figures);
 
-/*! Рекурсивная функция поиска фигуры по заданному элементу
-	\param[in] matrix - исходная матрица
-	\param[in|out] passedMatrix - матрица с пройденными элементами
-	\param[in] row - строка с текущим элементом
-	\param[in] column - столбец с текущим элементом
-	\param[in] element - значение текущего элемента
-	\param[out] newFigure - новая фигура
-	\param[in] numberOfRows - количество строк в матрице
-	\param[in] numberOfColumns - количество столбцов в матрице
+/*! Р РµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РїРѕРёСЃРєР° С„РёРіСѓСЂС‹ РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ
+	\param[in] matrix - РёСЃС…РѕРґРЅР°СЏ РјР°С‚СЂРёС†Р°
+	\param[in,out] passedMatrix - РјР°С‚СЂРёС†Р° СЃ РїСЂРѕР№РґРµРЅРЅС‹РјРё СЌР»РµРјРµРЅС‚Р°РјРё
+	\param[in] row - СЃС‚СЂРѕРєР° СЃ С‚РµРєСѓС‰РёРј СЌР»РµРјРµРЅС‚РѕРј
+	\param[in] column - СЃС‚РѕР»Р±РµС† СЃ С‚РµРєСѓС‰РёРј СЌР»РµРјРµРЅС‚РѕРј
+	\param[in] element - Р·РЅР°С‡РµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
+	\param[out] newFigure - РЅРѕРІР°СЏ С„РёРіСѓСЂР°
+	\param[in] numberOfRows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє РІ РјР°С‚СЂРёС†Рµ
+	\param[in] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РІ РјР°С‚СЂРёС†Рµ
 */
 void findFigureInMatrixByGivenElement(const int* matrix, int* passedMatrix, const int row, const int column, const int element, Figure& newFigure, const int numberOfRows, const int numberOfColumns);
 
-/*! Функция создания данных для вывода в файл
-	\param[in] figures - найденные наибольшие фигуры
-	\param[out] output - вектор строк для вывода в файл
-	\param[in] maxElementSize - максимальная длина элемента матрицы
-	\param[in] numberOfRows - количество строк матрицы
-	\param[in] numberOfColumns - количество столбцов матрицы
+/*! Р¤СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ РґР°РЅРЅС‹С… РґР»СЏ РІС‹РІРѕРґР° РІ С„Р°Р№Р»
+	\param[in] figures - РЅР°Р№РґРµРЅРЅС‹Рµ РЅР°РёР±РѕР»СЊС€РёРµ С„РёРіСѓСЂС‹
+	\param[out] output - РІРµРєС‚РѕСЂ СЃС‚СЂРѕРє РґР»СЏ РІС‹РІРѕРґР° РІ С„Р°Р№Р»
+	\param[in] maxElementSize - РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	\param[in] numberOfRows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹
+	\param[in] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ РјР°С‚СЂРёС†С‹
 */
 void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, const int maxElementSize, const int numberOfRows, const int numberOfColumns);
 
-/*! Функция проверки элемента на принадлежность к разрешенному диапазону(int)
-	\param[in] number - проверяющийся элемент
-	\return - принадлежит ли элемент к разрешенному диапазону
+/*! Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё СЌР»РµРјРµРЅС‚Р° РЅР° РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Рє СЂР°Р·СЂРµС€РµРЅРЅРѕРјСѓ РґРёР°РїР°Р·РѕРЅСѓ(int)
+	\param[in] number - РїСЂРѕРІРµСЂСЏСЋС‰РёР№СЃСЏ СЌР»РµРјРµРЅС‚
+	\return - РїСЂРёРЅР°РґР»РµР¶РёС‚ Р»Рё СЌР»РµРјРµРЅС‚ Рє СЂР°Р·СЂРµС€РµРЅРЅРѕРјСѓ РґРёР°РїР°Р·РѕРЅСѓ
 */
 bool isInIntRange(const string& number);
 
-/*! Функция проверки размера матрицы на принадлежность к разрешенному диапазону
-	\param[in] dimension - проверяющийся размер
-	\return - принадлежит ли размер к разрешенному диапазону
+/*! Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё СЂР°Р·РјРµСЂР° РјР°С‚СЂРёС†С‹ РЅР° РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ Рє СЂР°Р·СЂРµС€РµРЅРЅРѕРјСѓ РґРёР°РїР°Р·РѕРЅСѓ
+	\param[in] dimension - РїСЂРѕРІРµСЂСЏСЋС‰РёР№СЃСЏ СЂР°Р·РјРµСЂ
+	\return - РїСЂРёРЅР°РґР»РµР¶РёС‚ Р»Рё СЂР°Р·РјРµСЂ Рє СЂР°Р·СЂРµС€РµРЅРЅРѕРјСѓ РґРёР°РїР°Р·РѕРЅСѓ
 */
 bool isDimensionInRange(const string& dimension);
 
-/*! Функция обработки размеров матрицы
-	\param[in] dimensions - вектор с размерами матрицы
-	\param[out] numberOfRows - количество строк
-	\param[out] numberOfColumns - количество столбцов
-	\param[out] errors - контейнер с ошибками
-	\return - наличие ошибок
+/*! Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЂР°Р·РјРµСЂРѕРІ РјР°С‚СЂРёС†С‹
+	\param[in] dimensions - РІРµРєС‚РѕСЂ СЃ СЂР°Р·РјРµСЂР°РјРё РјР°С‚СЂРёС†С‹
+	\param[out] numberOfRows - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє
+	\param[out] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ
+	\param[out] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\return - РЅР°Р»РёС‡РёРµ РѕС€РёР±РѕРє
 */
 bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors);
 
-/*! Функция обработки строки матрицы
-	\param[in] currentRow - номер текущей строки(начинается с 1)
-	\param[in] line - строка для обработки
-	\param[in] numberOfColumns - количество столбцов
-	\param[in|out] maxElementSize - текущая максимальная длина элемента матрицы
-	\param[out] matrix - матрица
-	\param[out] errors - контейнер с ошибками
-	\param[in|out] isErrorFound - была ли найдена ошибка
+/*! Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃС‚СЂРѕРєРё РјР°С‚СЂРёС†С‹
+	\param[in] currentRow - РЅРѕРјРµСЂ С‚РµРєСѓС‰РµР№ СЃС‚СЂРѕРєРё(РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1)
+	\param[in] line - СЃС‚СЂРѕРєР° РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё
+	\param[in] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ
+	\param[in,out] maxElementSize - С‚РµРєСѓС‰Р°СЏ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	\param[out] matrix - РјР°С‚СЂРёС†Р°
+	\param[out] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\param[in,out] isErrorFound - Р±С‹Р»Р° Р»Рё РЅР°Р№РґРµРЅР° РѕС€РёР±РєР°
 */
 void parseMatrixRow(const int currentRow, const string& line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound);
 
-/*! Функция проверки элемента матрицы на наличие ошибок
-	\param[in] element - элемент для проверки
-	\param[in] currentRow - номер текущей строки(начинается с 1)
-	\param[in] currentColumn - номер текущего столбца(начинается с 1)
-	\param[in] numberOfColumns - количество столбцов
-	\param[in|out] maxElementSize - текущая максимальная длина элемента матрицы
-	\param[out] matrix - матрица
-	\param[out] errors - контейнер с ошибками
-	\param[in|out] isErrorFound - была ли найдена ошибка
+/*! Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹ РЅР° РЅР°Р»РёС‡РёРµ РѕС€РёР±РѕРє
+	\param[in] element - СЌР»РµРјРµРЅС‚ РґР»СЏ РїСЂРѕРІРµСЂРєРё
+	\param[in] currentRow - РЅРѕРјРµСЂ С‚РµРєСѓС‰РµР№ СЃС‚СЂРѕРєРё(РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1)
+	\param[in] currentColumn - РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СЃС‚РѕР»Р±С†Р°(РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1)
+	\param[in] numberOfColumns - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ
+	\param[in,out] maxElementSize - С‚РµРєСѓС‰Р°СЏ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	\param[out] matrix - РјР°С‚СЂРёС†Р°
+	\param[out] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\param[in,out] isErrorFound - Р±С‹Р»Р° Р»Рё РЅР°Р№РґРµРЅР° РѕС€РёР±РєР°
 */
 void validateMatrixElement(const string& element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound);
 
-/*! Функция создания сообщения об ошибке для вывода в консоль
-	\param[in] inputData - вектор строк с данными из файла
-	\param[in] errors - контейнер с ошибками
-	\return - строка с сообщением об ошибке (при отсутствии ошибок возвращает пустую строку)
+/*! Р¤СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС€РёР±РєРµ РґР»СЏ РІС‹РІРѕРґР° РІ РєРѕРЅСЃРѕР»СЊ
+	\param[in] inputData - РІРµРєС‚РѕСЂ СЃС‚СЂРѕРє СЃ РґР°РЅРЅС‹РјРё РёР· С„Р°Р№Р»Р°
+	\param[in] errors - РєРѕРЅС‚РµР№РЅРµСЂ СЃ РѕС€РёР±РєР°РјРё
+	\return - СЃС‚СЂРѕРєР° СЃ СЃРѕРѕР±С‰РµРЅРёРµРј РѕР± РѕС€РёР±РєРµ (РїСЂРё РѕС‚СЃСѓС‚СЃС‚РІРёРё РѕС€РёР±РѕРє РІРѕР·РІСЂР°С‰Р°РµС‚ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ)
 */
 string composeErrorOutput(const vector<string>& inputData, const set<Error>& errors);

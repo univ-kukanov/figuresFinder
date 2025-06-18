@@ -4,59 +4,59 @@
 
 using namespace std;
 
-//!Перечень возможных ошибок
+//!РџРµСЂРµС‡РµРЅСЊ РІРѕР·РјРѕР¶РЅС‹С… РѕС€РёР±РѕРє
 enum ErrorType {
 	noError, rowCountError, columnCountError, incorrectDimensionsCount, tooFewElements, tooFewRows, tooManyElements, tooManyRows, matrixSizeNotInt,
 	matrixElementNotInt, matrixElementNotInRange, inFileNotExist, outFileCreateFail, inFileIsEmpty
 };
 
-//!Error
+//!РљР»Р°СЃСЃ, РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёР№ РѕС€РёР±РєСѓ
 class Error {
 private:
-	ErrorType type = noError;	//!<Тип ошибки
-	int expColumnCount = 0;		//!<Ожидаемое количество столбцов
-	int expRowCount = 0;		//!<Ожидаемое количество строк
-	int columnCount = 0;		//!<Количество столбцов
-	int rowCount = 0;			//!<Количество строк
-	int currentRow = -1;		//!<Текущая строка
-	string matrixElement = "";	//!<Элемент матрицы
-	ElementPosition pos;		//!<Позиция элемента
-	string errorInputFilePath = "";		//!<Путь файла с входными данными
-	string errorOutputFilePath = "";	//!<Путь файла для выходных данных
+	ErrorType type = noError;	//!<РўРёРї РѕС€РёР±РєРё
+	int expColumnCount = 0;		//!<РћР¶РёРґР°РµРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ
+	int expRowCount = 0;		//!<РћР¶РёРґР°РµРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє
+	int columnCount = 0;		//!<РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ
+	int rowCount = 0;			//!<РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє
+	int currentRow = -1;		//!<РўРµРєСѓС‰Р°СЏ СЃС‚СЂРѕРєР°
+	string matrixElement = "";	//!<Р­Р»РµРјРµРЅС‚ РјР°С‚СЂРёС†С‹
+	ElementPosition pos;		//!<РџРѕР·РёС†РёСЏ СЌР»РµРјРµРЅС‚Р°
+	string errorInputFilePath = "";		//!<РџСѓС‚СЊ С„Р°Р№Р»Р° СЃ РІС…РѕРґРЅС‹РјРё РґР°РЅРЅС‹РјРё
+	string errorOutputFilePath = "";	//!<РџСѓС‚СЊ С„Р°Р№Р»Р° РґР»СЏ РІС‹С…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
 public:
-	void setErrorType(ErrorType newType);						//!<Сеттер типа ошибки
-	void setExpColumnCount(int newExpColumnCount);				//!<Сеттер ожидаемого количества столбцов
-	void setExpRowCount(int newExpRowCount);					//!<Сеттер ожидаемого количества строк
-	void setColumnCount(int newColumnCount);					//!<Сеттер количества столбцов
-	void setRowCount(int newRowCount);							//!<Сеттер количества строк
-	void setMatrixElement(string newMatrixElement);				//!<Сеттер элемента матрицы
-	void setPos(ElementPosition newPos);						//!<Сеттер позиции элемента
-	void setErrorInputFilePath(string errorInputFilePath);		//!<Сеттер пути файла с входными данными
-	void setErrorOutputFilePath(string errorOutputFilePath);	//!<Сеттер пути файла для выходных данных
+	void setErrorType(ErrorType newType);						//!<РЎРµС‚С‚РµСЂ С‚РёРїР° РѕС€РёР±РєРё
+	void setExpColumnCount(int newExpColumnCount);				//!<РЎРµС‚С‚РµСЂ РѕР¶РёРґР°РµРјРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚РѕР»Р±С†РѕРІ
+	void setExpRowCount(int newExpRowCount);					//!<РЎРµС‚С‚РµСЂ РѕР¶РёРґР°РµРјРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂРѕРє
+	void setColumnCount(int newColumnCount);					//!<РЎРµС‚С‚РµСЂ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚РѕР»Р±С†РѕРІ
+	void setRowCount(int newRowCount);							//!<РЎРµС‚С‚РµСЂ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂРѕРє
+	void setMatrixElement(string newMatrixElement);				//!<РЎРµС‚С‚РµСЂ СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	void setPos(ElementPosition newPos);						//!<РЎРµС‚С‚РµСЂ РїРѕР·РёС†РёРё СЌР»РµРјРµРЅС‚Р°
+	void setErrorInputFilePath(string errorInputFilePath);		//!<РЎРµС‚С‚РµСЂ РїСѓС‚Рё С„Р°Р№Р»Р° СЃ РІС…РѕРґРЅС‹РјРё РґР°РЅРЅС‹РјРё
+	void setErrorOutputFilePath(string errorOutputFilePath);	//!<РЎРµС‚С‚РµСЂ РїСѓС‚Рё С„Р°Р№Р»Р° РґР»СЏ РІС‹С…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
 
-	ErrorType getErrorType();			//!<Геттер типа ошибки
-	int getExpColumnCount();			//!<Геттер ожидаемого количества столбцов
-	int getExpRowCount();				//!<Геттер ожидаемого количества строк
-	int getColumnCount();				//!<Геттер количества столбцов
-	int getRowCount();					//!<Геттер количества строк
-	int getCurrentRow();				//!<Геттер текущей строки
-	string getMatrixElement();			//!<Геттер элемента матрицы
-	ElementPosition getPos();			//!<Геттер позиции элемента
-	string getErrorInputFilePath();		//!<Геттер пути файла с входными данными
-	string getErrorOutputFilePath();	//!<Геттер пути файла для выходных данных
+	ErrorType getErrorType();			//!<Р“РµС‚С‚РµСЂ С‚РёРїР° РѕС€РёР±РєРё
+	int getExpColumnCount();			//!<Р“РµС‚С‚РµСЂ РѕР¶РёРґР°РµРјРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚РѕР»Р±С†РѕРІ
+	int getExpRowCount();				//!<Р“РµС‚С‚РµСЂ РѕР¶РёРґР°РµРјРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂРѕРє
+	int getColumnCount();				//!<Р“РµС‚С‚РµСЂ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚РѕР»Р±С†РѕРІ
+	int getRowCount();					//!<Р“РµС‚С‚РµСЂ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂРѕРє
+	int getCurrentRow();				//!<Р“РµС‚С‚РµСЂ С‚РµРєСѓС‰РµР№ СЃС‚СЂРѕРєРё
+	string getMatrixElement();			//!<Р“РµС‚С‚РµСЂ СЌР»РµРјРµРЅС‚Р° РјР°С‚СЂРёС†С‹
+	ElementPosition getPos();			//!<Р“РµС‚С‚РµСЂ РїРѕР·РёС†РёРё СЌР»РµРјРµРЅС‚Р°
+	string getErrorInputFilePath();		//!<Р“РµС‚С‚РµСЂ РїСѓС‚Рё С„Р°Р№Р»Р° СЃ РІС…РѕРґРЅС‹РјРё РґР°РЅРЅС‹РјРё
+	string getErrorOutputFilePath();	//!<Р“РµС‚С‚РµСЂ РїСѓС‚Рё С„Р°Р№Р»Р° РґР»СЏ РІС‹С…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
 
-	/*! Генерация сообщения об ошибке
-		\return - сообщение об ошибке
+	/*! Р“РµРЅРµСЂР°С†РёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС€РёР±РєРµ
+		\return - СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
 	*/
 	string generateErrorMessage() const;
 
-	Error();																	//!<Стандартный конструктор
-	Error(ErrorType newType);													//!<Конструктор с типом ошибки
-	Error(ErrorType newType, string newErrorFilePath);							//!<Конструктор для ошибки в файле
-	Error(ErrorType newType, int newExpCount, int newCount);					//!<Конструктор для ошибки в количестве строк
-	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);	//!<Конструктор для ошибки в количестве элементов в строке
-	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);	//!<Конструктор для ошибки в элементе матрицы
+	Error();																	//!<РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	Error(ErrorType newType);													//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ С‚РёРїРѕРј РѕС€РёР±РєРё
+	Error(ErrorType newType, string newErrorFilePath);							//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ РѕС€РёР±РєРё РІ С„Р°Р№Р»Рµ
+	Error(ErrorType newType, int newExpCount, int newCount);					//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ РѕС€РёР±РєРё РІ РєРѕР»РёС‡РµСЃС‚РІРµ СЃС‚СЂРѕРє
+	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);	//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ РѕС€РёР±РєРё РІ РєРѕР»РёС‡РµСЃС‚РІРµ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃС‚СЂРѕРєРµ
+	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);	//!<РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ РѕС€РёР±РєРё РІ СЌР»РµРјРµРЅС‚Рµ РјР°С‚СЂРёС†С‹
 
-	bool operator<(const Error& other) const;	//!<Перегрузка оператора "<"
-	bool operator==(const Error& other) const;	//!<Перегрузка оператора "=="
+	bool operator<(const Error& other) const;	//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "<"
+	bool operator==(const Error& other) const;	//!<РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° "=="
 };
