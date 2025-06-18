@@ -81,41 +81,41 @@ void readDataFromFile(const string& filename, vector<string>& lines, set<Error>&
 
 int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numberOfRows, int* numberOfColumns, int* maxElementSize)
 {
+    //Разбить первую строку с размерами матрицы по пробелам 
     istringstream dimensionsStream(lines[0]);
     vector<string> dimensions;
     string dimension;
-
     while (dimensionsStream >> dimension) {
         dimensions.push_back(dimension);
     }
 
-    bool isErrorFound = parseMatrixDimensions(dimensions, numberOfRows, numberOfColumns, errors);
+    bool isErrorFound = parseMatrixDimensions(dimensions, numberOfRows, numberOfColumns, errors); //##Обработка размеров матрицы##
 
-    if (!isErrorFound) {
-        int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];
+    if (!isErrorFound) {    //Если ошибок не было найдено
+        int* matrix = new int[(*numberOfRows) * (*numberOfColumns)];    //Инициализировать матрицу заданных размеров
         *maxElementSize = 0;
 
-        if (lines.size() - 1 < *numberOfRows) {
-            errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));
-            isErrorFound = true;
+        if (lines.size() - 1 < *numberOfRows) { //Если кол-во строк меньше заданного
+            errors.insert(Error(tooFewRows, *numberOfRows, lines.size() - 1));  //Добавить ошибку о слишком маленьком кол-ве строк
+            isErrorFound = true;    //Считать, что ошибка найдена
         }
-        else if (lines.size() - 1 > *numberOfRows) {
-            errors.insert(Error(tooManyRows, *numberOfRows, lines.size() - 1));
-            isErrorFound = true;
+        else if (lines.size() - 1 > *numberOfRows) {    //Если кол-во строк больше заданного
+            errors.insert(Error(tooManyRows, *numberOfRows, lines.size() - 1)); //Добавить ошибку о слишком большом кол-ве строк
+            isErrorFound = true;    //Считать, что ошибка найдена
         }
 
         int currentRow = 0;
-        for (auto it = lines.begin() + 1; it != lines.end(); ++it) {
+        for (auto it = lines.begin() + 1; it != lines.end(); ++it) {    //Для каждой строки матрицы
             ++currentRow;
-            parseMatrixRow(currentRow, *it, *numberOfColumns, maxElementSize, matrix, errors, &isErrorFound);
+            parseMatrixRow(currentRow, *it, *numberOfColumns, maxElementSize, matrix, errors, &isErrorFound);   //##Обработка строки матрицы##
         }
 
-        if (!isErrorFound) {
-            return matrix;
+        if (!isErrorFound) {    //Если ошибки не были найдены
+            return matrix;      //Вернуть указатель на матрицу
         }
     }
 
-    return nullptr;
+    return nullptr; //Вернуть nullptr
 }
 
 bool outputDataToFile(const string& filename, vector<string>& output, const set<Error>& errors)
@@ -254,105 +254,105 @@ bool isDimensionInRange(const string& dimension) {
 
 bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, int* numberOfColumns, set<Error>& errors) 
 {
-    bool isErrorFound = false;
+    bool isErrorFound = false; //Флаг наличия ошибок
 
-    if (dimensions.size() != 2) {
-        errors.insert(Error(incorrectDimensionsCount));
-        isErrorFound = true;
+    if (dimensions.size() != 2) {                       //Если в размерах матрицы больше двух чисел
+        errors.insert(Error(incorrectDimensionsCount)); //Добавить ошибку о некорректном кол-ве размеров матрицы
+        isErrorFound = true;                            //Считать, что ошибка найдена
     }
-    else {
-        bool isDigitOnly = true;
-        for (const auto& dim : dimensions) {
-            for (const char symbol : dim) {
-                if (isDigitOnly && !isdigit(symbol)) {
-                    isDigitOnly = false;
+    else {                                              //Иначе
+        bool isDigitOnly = true;                        
+        for (const auto& dim : dimensions) {            //Для каждого из размеров (кол-ва строк и столбцов)
+            for (const char symbol : dim) {             //Для каждого символа в значении размера
+                if (isDigitOnly && !isdigit(symbol)) {  //Если до этого встречались только цифры и текущий символ не является цифрой
+                    isDigitOnly = false;                //Считать, что в размере есть отличные от цифр символы
                 }
             }
         }
 
-        if (!isDigitOnly) {
-            errors.insert(Error(matrixSizeNotInt));
-            isErrorFound = true;
+        if (!isDigitOnly) { //Если в размерах матрицы присутствуют отличные от цифр символы
+            errors.insert(Error(matrixSizeNotInt)); //Добавить ошибку о том, что размеры матрицы не являются числами
+            isErrorFound = true;    //Считать, что ошибка найдена
         }
 
-        if (isDigitOnly && !isDimensionInRange(dimensions[0])) {
-            errors.insert(Error(rowCountError));
-            isErrorFound = true;
+        if (isDigitOnly && !isDimensionInRange(dimensions[0])) {    //Если размеры являются числами и кол-во строк не входит в разрешенный диапазон
+            errors.insert(Error(rowCountError));    //Добавить ошибку о некорректном кол-ве строк в матрице
+            isErrorFound = true;    //Считать, что ошибка найдена
         }
-        if (isDigitOnly && !isDimensionInRange(dimensions[1])) {
-            errors.insert(Error(columnCountError));
-            isErrorFound = true;
+        if (isDigitOnly && !isDimensionInRange(dimensions[1])) {    //Если размеры являются числами и кол-во столбцов не входит в разрешенный диапазон
+            errors.insert(Error(columnCountError)); //Добавить ошибку о некорректном кол-ве столбцов в матрице
+            isErrorFound = true;    //Считать, что ошибка найдена
         }
 
-        if (!isErrorFound) {
+        if (!isErrorFound) {    //Если ошибок не было найдено, присвоить значения кол-ва строк и столбцов переменным
             *numberOfRows = stoi(dimensions[0]);
             *numberOfColumns = stoi(dimensions[1]);
         }
     }
 
-    return isErrorFound;
+    return isErrorFound;    //Вернуть наличие ошибки
 }
 
 void parseMatrixRow(const int currentRow, const string& line, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
 {
     int currentColumn = 0;
-    vector<string> splitElements;
+    //Разбить строку по элементам
+    vector<string> splitElements;   
     istringstream elements(line);
     string element;
-
     while (elements >> element) {
         splitElements.push_back(element);
     }
 
-    if (splitElements.size() > numberOfColumns) {
-        errors.insert(Error(tooManyElements, numberOfColumns, splitElements.size(), currentRow));
-        *isErrorFound = true;
+    if (splitElements.size() > numberOfColumns) {   //Если в строке больше элементов, чем кол-ва столбцов
+        errors.insert(Error(tooManyElements, numberOfColumns, splitElements.size(), currentRow));   //Добавить ошибку о слишком большом кол-ве элементов в строке
+        *isErrorFound = true;   //Считать, что ошибка найдена
     }
-    else if (splitElements.size() < numberOfColumns) {
-        errors.insert(Error(tooFewElements, numberOfColumns, splitElements.size(), currentRow));
-        *isErrorFound = true;
+    else if (splitElements.size() < numberOfColumns) {  //Если в строке меньше элементов, чем кол-ва столбцов
+        errors.insert(Error(tooFewElements, numberOfColumns, splitElements.size(), currentRow));    //Добавить ошибку о слишком маленьком кол-ве элементов в строке
+        *isErrorFound = true;   //Считать, что ошибка найдена
     }
 
-    for (const auto& el : splitElements) {
+    for (const auto& el : splitElements) {  //Для каждого элемента в строке
         ++currentColumn;
-        validateMatrixElement(el, currentRow, currentColumn, numberOfColumns, maxElementSize, matrix, errors, isErrorFound);
+        validateMatrixElement(el, currentRow, currentColumn, numberOfColumns, maxElementSize, matrix, errors, isErrorFound);    //##Проверка элемента на наличие ошибок##
     }
 }
 
 void validateMatrixElement(const string& element, const int currentRow, const int currentColumn, const int numberOfColumns, int* maxElementSize, int* matrix, set<Error>& errors, bool* isErrorFound) 
 {
-    bool isDigitOnly = true;
+    bool isDigitOnly = true;    
     int currentSymbol = 0;
-    for (const char symbol : element) {
-        if (isDigitOnly && !isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {
-            errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), element));
+    for (const char symbol : element) { //Для каждого символа в значении элемента
+        if (isDigitOnly && !isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {    //Если до этого встречались только цифры, текущий символ не является цифрой и это не знак "-" в начале числа
+            errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), element)); //Добавить ошибку о том, что элемент не является числом
 
-            *isErrorFound = true;
-            isDigitOnly = false;
+            *isErrorFound = true;   //Считать, что ошибка найдена
+            isDigitOnly = false;    //Считать, что в значении элемента есть отличные от цифр символы
         }
         ++currentSymbol;
     }
 
-    if (isDigitOnly && !isInIntRange(element)) {
-        errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), element));
+    if (isDigitOnly && !isInIntRange(element)) {    //Если все элементы являются числами и элемент не входит в разрешенный диапазон значений элементов матрицы
+        errors.insert(Error(matrixElementNotInRange, ElementPosition(currentRow, currentColumn), element)); //Добавить ошибку о некорректном значении элемента матрицы
 
-        *isErrorFound = true;
+        *isErrorFound = true;   //Считать, что ошибка найдена
     }
 
-    if (!*isErrorFound) {
-        int newElement = stoi(element);
-        if (to_string(newElement).size() > *maxElementSize) {
-            *maxElementSize = to_string(newElement).size();
+    if (!*isErrorFound) {   //Если ошибок не было найдено
+        int newElement = stoi(element); 
+        if (to_string(newElement).size() > *maxElementSize) {   //Если длина элемента больше найденной
+            *maxElementSize = to_string(newElement).size(); //Считать данный элемент самым длинным
         }
 
-        matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;
+        matrix[(currentRow - 1) * (numberOfColumns) + (currentColumn - 1)] = newElement;    //Записать значение элемента в матрицу
     }
 }
 
 string composeErrorOutput(const vector<string>& inputData, const set<Error>& errors) 
 {
     string errorString = "";
-    if (!errors.empty()) {  //Если обнаружена ошибка
+    if (!errors.empty()) {  //Если обнаружена ошибка открытия файла
         const auto& it = errors.begin();
         errorString = Error(*it).generateErrorMessage();    //Создать сообщение об ошибке
     }
