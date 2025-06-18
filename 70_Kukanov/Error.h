@@ -19,8 +19,8 @@ private:
 	int currentRow = -1;
 	string matrixElement = "";
 	ElementPosition pos;
-	string errorInputFileWay = "";
-	string errorOutputfileWay = "";
+	string errorInputFilePath = "";
+	string errorOutputFilePath = "";
 public:
 	void setErrorType(ErrorType newType);
 	void setExpColumnCount(int newExpColumnCount);
@@ -29,8 +29,8 @@ public:
 	void setRowCount(int newRowCount);
 	void setMatrixElement(string newMatrixElement);
 	void setPos(ElementPosition newPos);
-	void setErrorInputFileWay(string newErrorInputFileWay);
-	void setErrorOutputfileWay(string newErrorOutputfileWay);
+	void setErrorInputFilePath(string errorInputFilePath);
+	void setErrorOutputFilePath(string errorOutputFilePath);
 
 	ErrorType getErrorType();
 	int getExpColumnCount();
@@ -40,14 +40,14 @@ public:
 	int getCurrentRow();
 	string getMatrixElement();
 	ElementPosition getPos();
-	string getErrorInputFileWay();
-	string getErrorOutputfileWay();
+	string getErrorInputFilePath();
+	string getErrorOutputFilePath();
 
 	string generateErrorMessage() const;
 
 	Error();
 	Error(ErrorType newType);
-	Error(ErrorType newType, string newErrorFileWay);
+	Error(ErrorType newType, string newErrorFilePath);
 	Error(ErrorType newType, int newExpCount, int newCount);
 	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);
 	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);

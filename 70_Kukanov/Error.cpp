@@ -8,13 +8,13 @@ Error::Error(ErrorType newType) {
 	type = newType;
 }
 
-Error::Error(ErrorType newType, string newErrorFileWay) {
+Error::Error(ErrorType newType, string newErrorFilePath) {
 	type = newType;
 	if (type == inFileNotExist) {
-		errorInputFileWay = newErrorFileWay;
+		errorInputFilePath = newErrorFilePath;
 	}
 	else {
-		errorOutputfileWay = newErrorFileWay;
+		errorOutputFilePath = newErrorFilePath;
 	}
 }
 
@@ -71,12 +71,12 @@ void Error::setPos(ElementPosition newPos) {
 	pos = newPos;
 }
 
-void Error::setErrorInputFileWay(string newErrorInputFileWay) {
-	errorInputFileWay = newErrorInputFileWay;
+void Error::setErrorInputFilePath(string newErrorInputFilePath) {
+	errorInputFilePath = newErrorInputFilePath;
 }
 
-void Error::setErrorOutputfileWay(string newErrorOutputfileWay) {
-	errorOutputfileWay = newErrorOutputfileWay;
+void Error::setErrorOutputFilePath(string newErrorOutputFilePath) {
+	errorOutputFilePath = newErrorOutputFilePath;
 }
 
 ErrorType Error::getErrorType() {
@@ -111,12 +111,12 @@ ElementPosition Error::getPos() {
 	return pos;
 }
 
-string Error::getErrorInputFileWay() {
-	return errorInputFileWay;
+string Error::getErrorInputFilePath() {
+	return errorInputFilePath;
 }
 
-string Error::getErrorOutputfileWay() {
-	return errorOutputfileWay;
+string Error::getErrorOutputFilePath() {
+	return errorOutputFilePath;
 }
 
 string Error::generateErrorMessage() const {
@@ -172,11 +172,11 @@ string Error::generateErrorMessage() const {
 		break;
 
 	case inFileNotExist:
-		errorString = "Input file specified incorrectly. The file might not exist. Path: " + errorInputFileWay;
+		errorString = "Input file specified incorrectly. The file might not exist. Path: " + errorInputFilePath;
 		break;
 
 	case outFileCreateFail:
-		errorString = "Output file specified incorrectly. The location might not exist or you don't have write permissions. Path: " + errorOutputfileWay;
+		errorString = "Output file specified incorrectly. The location might not exist or you don't have write permissions. Path: " + errorOutputFilePath;
 		break;
 
 	case inFileIsEmpty:
@@ -213,10 +213,10 @@ bool Error::operator<(const Error& other) const {
 	if (matrixElement != other.matrixElement) {
 		return matrixElement < other.matrixElement;
 	}
-	if (errorInputFileWay != other.errorInputFileWay) {
-		return errorInputFileWay < other.errorInputFileWay;
+	if (errorInputFilePath != other.errorInputFilePath) {
+		return errorInputFilePath < other.errorInputFilePath;
 	}
-	return errorOutputfileWay < other.errorOutputfileWay;
+	return errorOutputFilePath < other.errorOutputFilePath;
 }
 
 bool Error::operator==(const Error& other) const {
@@ -224,5 +224,5 @@ bool Error::operator==(const Error& other) const {
 		expRowCount == other.expRowCount && columnCount == other.columnCount &&
 		rowCount == other.rowCount && currentRow == other.currentRow &&
 		matrixElement == other.matrixElement && pos == other.pos &&
-		errorInputFileWay == other.errorInputFileWay && errorOutputfileWay == other.errorOutputfileWay);
+		errorInputFilePath == other.errorInputFilePath && errorOutputFilePath == other.errorOutputFilePath);
 }
