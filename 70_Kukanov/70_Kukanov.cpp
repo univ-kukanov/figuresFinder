@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    delete[] matrix;
     return 0;   //Завершить работу программы 
 }
 
@@ -128,6 +129,7 @@ int* parseMatrixData(const vector<string>& lines, set<Error>& errors, int* numbe
         }
     }
 
+
     return nullptr; //Вернуть nullptr
 }
 
@@ -196,6 +198,8 @@ void extractLargestFiguresFromMatrix(const int* matrix, const int numberOfRows, 
             }
         }
     }
+
+    delete[] passedMatrix;
 }
 
 /*! Рекурсивная функция поиска фигуры по заданному элементу
