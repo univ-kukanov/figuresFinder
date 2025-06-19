@@ -324,7 +324,7 @@ bool parseMatrixDimensions(const vector<string>& dimensions, int* numberOfRows, 
     else {                                              //!Иначе
         bool isDigitOnly = true;                        
         for (const auto& dim : dimensions) {            //!Для каждого из размеров (кол-ва строк и столбцов)
-            for (const char symbol : dim) {             //!Для каждого символа в значении размера
+            for (const unsigned char symbol : dim) {             //!Для каждого символа в значении размера
                 if (isDigitOnly && !isdigit(symbol)) {  //!Если до этого встречались только цифры и текущий символ не является цифрой
                     isDigitOnly = false;                //!Считать, что в размере есть отличные от цифр символы
                 }
@@ -403,7 +403,7 @@ void validateMatrixElement(const string& element, const int currentRow, const in
 {
     bool isDigitOnly = true;    
     int currentSymbol = 0;
-    for (const char symbol : element) { //!Для каждого символа в значении элемента
+    for (const unsigned char symbol : element) { //!Для каждого символа в значении элемента
         if (isDigitOnly && !isdigit(symbol) && !(currentSymbol == 0 && symbol == '-')) {    //!Если до этого встречались только цифры, текущий символ не является цифрой и это не знак "-" в начале числа
             errors.insert(Error(matrixElementNotInt, ElementPosition(currentRow, currentColumn), element)); //!Добавить ошибку о том, что элемент не является числом
 
