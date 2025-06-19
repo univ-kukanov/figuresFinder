@@ -6,15 +6,40 @@ private:
 	int row = -1;		//!<Строка
 	int column = -1;	//!<Столбец
 public:
-	void setRow(int newRow);		//!<Сеттер строки
-	void setColumn(int newColumn);	//!<Сеттер столбца
+	/*! Установить значение строки
+		\param[in] newRow - новое значение строки
+	*/
+	void setRow(int newRow);
+	/*! Установить значение столбца
+		\param[in] newColumn - новое значение столбца
+	*/
+	void setColumn(int newColumn);
 
-	int getRow() const;				//!<Геттер строки
-	int getColumn() const;			//!<Геттер столбца
+	/*! Получить значение строки
+		\return значение строки
+	*/
+	int getRow() const;
+	/*! Получить значение столбца
+		\return значение столбца
+	*/
+	int getColumn() const;
 
-	bool operator==(const ElementPosition& other) const;	//!<Перегрузка оператора "=="
-	bool operator<(const ElementPosition& other) const;		//!<Перегрузка оператора "<"
+	/*! Перегрузка оператора "=="
+		\param[in] other - объект для сравнения
+		\return - равны ли объекты
+	*/
+	bool operator==(const ElementPosition& other) const;
+	/*! Перегрузка оператора "<"
+		\param[in] other - объект для сравнения
+		\return - меньше ли левый объект
+	*/
+	bool operator<(const ElementPosition& other) const;
 
-	ElementPosition();										//!<Стандартный конструктор
-	ElementPosition(int newRow, int newColumn);				//!<Конструктор с заданной позицией элемента
+	/*! Стандартный конструктор */
+	ElementPosition();										
+	/*! Конструктор с заданной позицией элемента
+		\param[in] newRow - значение строки
+		\param[in] newColumn - значение столбца
+	*/
+	ElementPosition(int newRow, int newColumn);
 };

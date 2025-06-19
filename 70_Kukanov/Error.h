@@ -24,39 +24,128 @@ private:
 	string errorInputFilePath = "";		//!<Путь файла с входными данными
 	string errorOutputFilePath = "";	//!<Путь файла для выходных данных
 public:
-	void setErrorType(ErrorType newType);						//!<Сеттер типа ошибки
-	void setExpColumnCount(int newExpColumnCount);				//!<Сеттер ожидаемого количества столбцов
-	void setExpRowCount(int newExpRowCount);					//!<Сеттер ожидаемого количества строк
-	void setColumnCount(int newColumnCount);					//!<Сеттер количества столбцов
-	void setRowCount(int newRowCount);							//!<Сеттер количества строк
-	void setMatrixElement(string newMatrixElement);				//!<Сеттер элемента матрицы
-	void setPos(ElementPosition newPos);						//!<Сеттер позиции элемента
-	void setErrorInputFilePath(string errorInputFilePath);		//!<Сеттер пути файла с входными данными
-	void setErrorOutputFilePath(string errorOutputFilePath);	//!<Сеттер пути файла для выходных данных
+	/*! Установить тип ошибки
+		\param[in] newType - новый тип ошибки
+	*/
+	void setErrorType(ErrorType newType);
+	/*! Установить ожидаемое количество столбцов
+		\param[in] newExpColumnCount - новое ожидаемое количество столбцов
+	*/
+	void setExpColumnCount(int newExpColumnCount);
+	/*! Установить ожидаемое количество строк
+		\param[in] newExpRowCount - новое ожидаемое количество строк
+	*/
+	void setExpRowCount(int newExpRowCount);
+	/*! Установить реальное количество столбцов
+		\param[in] newColumnCount - новое реальное количество столбцов
+	*/
+	void setColumnCount(int newColumnCount);
+	/*! Установить реальное количество строк
+		\param[in] newRowCount - новое реальное количество строк
+	*/
+	void setRowCount(int newRowCount);
+	/*! Установить значение элемента матрицы
+		\param[in] newMatrixElement - новое значение элемента матрицы
+	*/
+	void setMatrixElement(string newMatrixElement);
+	/*! Установить позицию элемента матрицы
+		\param[in] newPos - новая позиция элемента матрицы
+	*/
+	void setPos(ElementPosition newPos);
+	/*! Установить путь файла с входными данными
+		\param[in] errorInputFilePath - новый путь файла с входными данными
+	*/
+	void setErrorInputFilePath(string errorInputFilePath);
+	/*! Установить путь файла для выходных данных
+		\param[in] errorOutputFilePath - новый путь файла для выходных данных
+	*/
+	void setErrorOutputFilePath(string errorOutputFilePath);
 
-	ErrorType getErrorType();			//!<Геттер типа ошибки
-	int getExpColumnCount();			//!<Геттер ожидаемого количества столбцов
-	int getExpRowCount();				//!<Геттер ожидаемого количества строк
-	int getColumnCount();				//!<Геттер количества столбцов
-	int getRowCount();					//!<Геттер количества строк
-	int getCurrentRow();				//!<Геттер текущей строки
-	string getMatrixElement();			//!<Геттер элемента матрицы
-	ElementPosition getPos();			//!<Геттер позиции элемента
-	string getErrorInputFilePath();		//!<Геттер пути файла с входными данными
-	string getErrorOutputFilePath();	//!<Геттер пути файла для выходных данных
+	/*! Получить тип ошибки
+		\return - тип ошибки
+	*/
+	ErrorType getErrorType();
+	/*! Получить ожидаемое количество столбцов
+		\return - ожидаемое количество столбцов
+	*/
+	int getExpColumnCount();
+	/*! Получить ожидаемое количество строк
+		\return - ожидаемое количество строк
+	*/
+	int getExpRowCount();
+	/*! Получить реальное количество столбцов
+		\return - реальное количество столбцов
+	*/
+	int getColumnCount();
+	/*! Получить реальное количество строк
+		\return - реальное количество строк
+	*/
+	int getRowCount();
+	/*! Получить номер текущей строки
+		\return - номер текущей строки
+	*/
+	int getCurrentRow();
+	/*! Получить значение элемента матрицы
+		\return - значение элемента матрицы
+	*/
+	string getMatrixElement();
+	/*! Получить позицию элемента матрицы
+		\return - позиция элемента матрицы
+	*/
+	ElementPosition getPos();
+	/*! Получить путь файла с входными данными
+		\return - путь файла с входными данными
+	*/
+	string getErrorInputFilePath();
+	/*! Получить путь файла для выходных данных
+		\return - путь файла для выходных данных
+	*/
+	string getErrorOutputFilePath();
 
 	/*! Генерация сообщения об ошибке
 		\return - сообщение об ошибке
 	*/
 	string generateErrorMessage() const;
 
-	Error();																	//!<Стандартный конструктор
-	Error(ErrorType newType);													//!<Конструктор с типом ошибки
-	Error(ErrorType newType, string newErrorFilePath);							//!<Конструктор для ошибки в файле
-	Error(ErrorType newType, int newExpCount, int newCount);					//!<Конструктор для ошибки в количестве строк
-	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);	//!<Конструктор для ошибки в количестве элементов в строке
-	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);	//!<Конструктор для ошибки в элементе матрицы
+	/*! Стандартный конструктор */
+	Error();
+	/*! Конструктор с типом ошибки
+		\param[in] newType - тип ошибки
+	*/
+	Error(ErrorType newType);
+	/*! Конструктор для ошибки в файле
+		\param[in] newType - тип ошибки
+		\param[in] newErrorFilePath - путь файла
+	*/
+	Error(ErrorType newType, string newErrorFilePath);
+	/*! Конструктор для ошибки в количестве строк
+		\param[in] newType - тип ошибки
+		\param[in] newExpCount - ожидаемое количество строк
+		\param[in] newCount - реальное количество строк
+	*/
+	Error(ErrorType newType, int newExpCount, int newCount);
+	/*! Конструктор для ошибки в количестве элементов в строке
+		\param[in] newType - тип ошибки
+		\param[in] newExpCount - ожидаемое количество элементов
+		\param[in] newCount - реальное количество элементов
+		\param[in] newCurrentRow - текущая строка
+	*/
+	Error(ErrorType newType, int newExpCount, int newCount, int newCurrentRow);	
+	/*! Конструктор для ошибки в элементе матрицы
+		\param[in] newType - тип ошибки
+		\param[in] newPos - позиция элемента
+		\param[in] newMatrixElement - элемент матрицы
+	*/
+	Error(ErrorType newType, ElementPosition newPos, string newMatrixElement);	
 
-	bool operator<(const Error& other) const;	//!<Перегрузка оператора "<"
-	bool operator==(const Error& other) const;	//!<Перегрузка оператора "=="
+	/*! Перегрузка оператора "<"
+		\param[in] other - объект для сравнения
+		\return - меньше ли левый объект
+	*/
+	bool operator<(const Error& other) const;
+	/*! Перегрузка оператора "=="
+		\param[in] other - объект для сравнения
+		\return - равны ли объекты
+	*/
+	bool operator==(const Error& other) const;
 };

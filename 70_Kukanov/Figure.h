@@ -26,14 +26,36 @@ public:
 	*/
 	bool isElementInFigure(ElementPosition pos) const;
 
-	void setElementValue(int newElement);				//!<Сеттер значения элемента
+	/*! Установить значение элемента
+		\param[in] newElement - новое значение элемента
+	*/
+	void setElementValue(int newElement);
 
-	int getElementValue() const;						//!<Геттер значения элемента
-	const set<ElementPosition>& getPositions() const;	//!<Геттер всех позиций элементов фигуры
+	/*! Получить значение элемента
+		\return - значение элемента
+	*/
+	int getElementValue() const;
+	/*! Получить контейнер со всеми позициями элементов фигуры
+		\return - контейнер со всеми позициями элементов фигуры
+	*/
+	const set<ElementPosition>& getPositions() const;
 
-	Figure(set<ElementPosition> pos, int el);			//!<Конструктор с заданными позициями элементов и значением элемента
-	Figure();											//!<Стандартный конструктор
+	/*! Стандартный конструктор*/
+	Figure();
+	/*! Конструктор с заданными позициями элементов и значением элемента
+		\param[in] pos - контейнер со всеми позициями элементов фигуры
+		\param[in] el - значение элемента
+	*/
+	Figure(set<ElementPosition> pos, int el);
 
-	bool operator<(const Figure& other) const;			//!<Перегрузка оператора "<"
-	bool operator==(const Figure& other) const;			//!<Перегрузка оператора "=="
+	/*! Перегрузка оператора "<"
+		\param[in] other - объект для сравнения
+		\return - меньше ли левый объект
+	*/
+	bool operator<(const Figure& other) const;
+	/*! Перегрузка оператора "=="
+		\param[in] other - объект для сравнения
+		\return - равны ли объекты
+	*/
+	bool operator==(const Figure& other) const;
 };
