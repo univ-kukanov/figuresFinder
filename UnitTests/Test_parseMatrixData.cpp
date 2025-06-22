@@ -8,6 +8,32 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+string getErrorDetails(const Error& error)
+{
+    const string errorTypeToString[] = {
+    "noError",
+    "rowCountError",
+    "columnCountError",
+    "incorrectDimensionsCount",
+    "tooFewElements",
+    "tooFewRows",
+    "tooManyElements",
+    "tooManyRows",
+    "matrixSizeNotInt",
+    "matrixElementNotInt",
+    "matrixElementNotInRange",
+    "inFileNotExist",
+    "outFileCreateFail",
+    "inFileIsEmpty"
+    };
+
+    string errorDetails = "Type = " + errorTypeToString[error.getErrorType()] + "; expRowCount = " + to_string(error.getExpRowCount()) + "; expColumnCount = " + to_string(error.getExpColumnCount())
+        + "; rowCount = " + to_string(error.getRowCount()) + "; columnCount = " + to_string(error.getColumnCount()) + "; currentRow = " + to_string(error.getCurrentRow())
+        + "; matrixElement = " + error.getMatrixElement() + "; pos = (" + to_string(error.getPos().getRow()) + ", " + to_string(error.getPos().getColumn())
+        + "); errorInputFilePath = " + error.getErrorInputFilePath() + "; errorOutputFilePath = " + error.getErrorOutputFilePath() + ";";
+    return errorDetails;
+}
+
 void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfRows, int numberOfColumns, int maxElementSize, const int* exp_matrix, const set<Error>& exp_errors, int exp_numberOfRows, int exp_numberOfColumns, int exp_maxElementSize)
 {
     wstringstream wss;
@@ -44,7 +70,7 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
             wss << L"Missing expected errors:\n";
             for (const auto& exp_error : exp_errors) {
                 if (errors.find(exp_error) == errors.end()) {
-                    wss << L"- " << exp_error.generateErrorMessage().c_str() << L"\n";
+                    wss << L"- " << getErrorDetails(exp_error).c_str() << L"\n";
                 }
             }
         }
@@ -54,7 +80,7 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
             wss << L"Unexpected errors found:\n";
             for (const auto& error : errors) {
                 if (exp_errors.find(error) == exp_errors.end()) {
-                    wss << L"- " << error.generateErrorMessage().c_str() << L"\n";
+                    wss << L"- " << getErrorDetails(error).c_str() << L"\n";
                 }
             }
         }
@@ -70,14 +96,14 @@ void assertMatrixData(const int* matrix, const set<Error>& errors, int numberOfR
         // Поиск ожидаемых, но ненайденных ошибок
         for (const auto& exp_error : exp_errors) {
             if (errors.find(exp_error) == errors.end()) {
-                wss << L"Expected but not found: " << exp_error.generateErrorMessage().c_str() << L"\n";
+                wss << L"Expected but not found: " << getErrorDetails(exp_error).c_str() << L"\n";
             }
         }
 
         // Поиск найденных ошибок, которых не было в ожидаемых
         for (const auto& act_error : errors) {
             if (exp_errors.find(act_error) == exp_errors.end()) {
-                wss << L"Unexpected error found: " << act_error.generateErrorMessage().c_str() << L"\n";
+                wss << L"Unexpected error found: " << getErrorDetails(act_error).c_str() << L"\n";
             }
         }
         Assert::Fail(wss.str().c_str());
