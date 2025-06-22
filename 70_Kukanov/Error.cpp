@@ -79,43 +79,43 @@ void Error::setErrorOutputFilePath(string newErrorOutputFilePath) {
 	errorOutputFilePath = newErrorOutputFilePath;
 }
 
-ErrorType Error::getErrorType() {
+ErrorType Error::getErrorType() const {
 	return type;
 }
 
-int Error::getExpColumnCount() {
+int Error::getExpColumnCount() const {
 	return expColumnCount;
 }
 
-int Error::getExpRowCount() {
+int Error::getExpRowCount() const {
 	return expRowCount;
 }
 
-int Error::getColumnCount() {
+int Error::getColumnCount() const {
 	return columnCount;
 }
 
-int Error::getRowCount() {
+int Error::getRowCount() const {
 	return rowCount;
 }
 
-int Error::getCurrentRow() {
+int Error::getCurrentRow() const {
 	return currentRow;
 }
 
-string Error::getMatrixElement() {
+string Error::getMatrixElement() const {
 	return matrixElement;
 }
 
-ElementPosition Error::getPos() {
+ElementPosition Error::getPos() const {
 	return pos;
 }
 
-string Error::getErrorInputFilePath() {
+string Error::getErrorInputFilePath() const {
 	return errorInputFilePath;
 }
 
-string Error::getErrorOutputFilePath() {
+string Error::getErrorOutputFilePath() const {
 	return errorOutputFilePath;
 }
 

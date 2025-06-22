@@ -64,43 +64,43 @@ public:
 	/*! Получить тип ошибки
 		\return - тип ошибки
 	*/
-	ErrorType getErrorType();
+	ErrorType getErrorType() const;
 	/*! Получить ожидаемое количество столбцов
 		\return - ожидаемое количество столбцов
 	*/
-	int getExpColumnCount();
+	int getExpColumnCount() const;
 	/*! Получить ожидаемое количество строк
 		\return - ожидаемое количество строк
 	*/
-	int getExpRowCount();
+	int getExpRowCount() const;
 	/*! Получить реальное количество столбцов
 		\return - реальное количество столбцов
 	*/
-	int getColumnCount();
+	int getColumnCount() const;
 	/*! Получить реальное количество строк
 		\return - реальное количество строк
 	*/
-	int getRowCount();
+	int getRowCount() const;
 	/*! Получить номер текущей строки
 		\return - номер текущей строки
 	*/
-	int getCurrentRow();
+	int getCurrentRow() const;
 	/*! Получить значение элемента матрицы
 		\return - значение элемента матрицы
 	*/
-	string getMatrixElement();
+	string getMatrixElement() const;
 	/*! Получить позицию элемента матрицы
 		\return - позиция элемента матрицы
 	*/
-	ElementPosition getPos();
+	ElementPosition getPos() const;
 	/*! Получить путь файла с входными данными
 		\return - путь файла с входными данными
 	*/
-	string getErrorInputFilePath();
+	string getErrorInputFilePath() const;
 	/*! Получить путь файла для выходных данных
 		\return - путь файла для выходных данных
 	*/
-	string getErrorOutputFilePath();
+	string getErrorOutputFilePath() const;
 
 	/*! Генерация сообщения об ошибке
 		\return - сообщение об ошибке
