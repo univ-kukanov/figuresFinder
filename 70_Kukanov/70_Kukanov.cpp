@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     if (argc < 3)
     {
-        cerr << "Ошибка: Ожидается 3 аргумента. Используйте: program.exe ./input.txt ./output.txt" << endl;
+        cerr << "Ошибка: Ожидается 2 аргумента. Используйте: program.exe ./input.txt ./output.txt" << endl;
         return 1;
     }
 
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     }
     else {      //!Иначе
         for (const auto& error : errors) {                              //!Для каждой ошибки в errors
-            cout << error.generateErrorMessage() << endl;       //!Вывести сообщения об ошибке
+            cerr << error.generateErrorMessage() << endl;       //!Вывести сообщения об ошибке
         }
         return 1;
     }
@@ -66,6 +66,7 @@ int main(int argc, char* argv[])
     }
 
     delete[] matrix;
+    cout << "Программа выполнена успешно." << endl;
     return 0;   //!Завершить работу программы 
 }
 
