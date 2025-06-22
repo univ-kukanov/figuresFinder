@@ -12,14 +12,16 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+    system("chcp 65001>nul");   //!Установка кодировки консоли
+
     if (argc < 3)
     {
-        cerr << "Error: Expected 3 arguments. Usage: program.exe ./input.txt ./output.txt" << endl;
+        cerr << "Ошибка: Ожидается 3 аргумента. Используйте: program.exe ./input.txt ./output.txt" << endl;
         return 1;
     }
 
-    string inputFilename = argv[1];     //Считать из параметров командной строки путь к входному файлу 
-    string outputFilename = argv[2];    //Считать из параметров командной строки путь для выходных файлов 
+    string inputFilename = argv[1];     //!Считать из параметров командной строки путь к входному файлу 
+    string outputFilename = argv[2];    //!Считать из параметров командной строки путь для выходных файлов 
     vector<string> inputData;
     vector<string> outputData;
     set<Error> errors;
