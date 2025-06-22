@@ -270,7 +270,9 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
         }
 
         if (figureIndex != figures.size()) {    //!Добавить в контейнер разделитель фигур, если это не последняя фигура 
+            output.push_back("");
             output.push_back(separator);
+            output.push_back("");
         }
 
         ++figureIndex;
