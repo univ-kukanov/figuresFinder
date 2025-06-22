@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     if (argc < 3)
     {
-        cerr << "Ошибка: Ожидается 2 аргумента. Используйте: program.exe ./input.txt ./output.txt" << endl;
+        cout << "Ошибка: Ожидается 2 аргумента. Используйте: program.exe ./input.txt ./output.txt" << endl;
         return 1;
     }
 
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     string errorString = composeErrorOutput(inputData, errors); //!##Создание строки вывода ошибки при ее наличии##
 
     if (!errorString.empty()) {         //!Если сообщение об ошибке не пустое
-        cerr << errorString << endl;    //!Вывести ошибку
+        cout << errorString << endl;    //!Вывести ошибку
         return 1;
     }
 
@@ -54,14 +54,14 @@ int main(int argc, char* argv[])
     }
     else {      //!Иначе
         for (const auto& error : errors) {                              //!Для каждой ошибки в errors
-            cerr << error.generateErrorMessage() << endl;       //!Вывести сообщения об ошибке
+            cout << error.generateErrorMessage() << endl;       //!Вывести сообщения об ошибке
         }
         return 1;
     }
 
     bool isOutputCompleted = outputDataToFile(outputFilename, outputData, errors);          //!##Вывести данные в файл##
     if (!isOutputCompleted) {       //!Если создание файла для вывода было неудачным 
-        cerr << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;    //!Вернуть ошибку о неудаче создания файла 
+        cout << Error(outFileCreateFail, outputFilename).generateErrorMessage() << endl;    //!Вернуть ошибку о неудаче создания файла 
         return 1;
     }
 
@@ -260,10 +260,14 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
 
             for (int j = 0; j < numberOfColumns; j++) { //!Делать numberOfColumns раз 
                 if (!figure.isElementInFigure(ElementPosition(i, j))) {     //!Если элемент не принадлежит фигуре 
-                    newString += string(elementValue.size(), '*') + " ";    //!Добавить к строке “*” (количество которых равно длине элемента фигуры) и пробел 
+                    newString += string(elementValue.size(), '*');    //!Добавить к строке “*” (количество которых равно длине элемента фигуры) 
                 }
                 else {                                  //!Иначе 
-                    newString += elementValue + " ";    //!Добавить к строке значение элемента и пробел 
+                    newString += elementValue;    //!Добавить к строке значение элемента
+                }
+
+                if (j < numberOfColumns - 1) {  //!Добавить к строке пробел, если это не последний символ
+                    newString += " ";
                 }
             }
             output.push_back(newString);    //!Добавить строку к контейнеру строк на вывод 
