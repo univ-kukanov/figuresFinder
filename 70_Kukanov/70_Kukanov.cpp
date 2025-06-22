@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    system("chcp 65001>nul");   //!Установка кодировки консоли
+    system("chcp 65001 > nul");   //!Установка кодировки консоли
 
     if (argc < 3)
     {
@@ -51,6 +51,12 @@ int main(int argc, char* argv[])
         else {                  //!Иначе 
             outputData.push_back("no figures");                                         //!Добавить в вектор строк для вывода строку “no figure” 
         }
+    }
+    else {      //!Иначе
+        for (const auto& error : errors) {                              //!Для каждой ошибки в errors
+            cout << error.generateErrorMessage() << endl;       //!Вывести сообщения об ошибке
+        }
+        return 1;
     }
 
     bool isOutputCompleted = outputDataToFile(outputFilename, outputData, errors);          //!##Вывести данные в файл##
@@ -148,17 +154,8 @@ bool outputDataToFile(const string& filename, vector<string>& output, const set<
         return false;           //!Вернуть ложь (файл не был создан) 
     }
 
-    if (!errors.empty()) {      //!Если ошибки были обнаружены 
-        //!Вывести в файл данные об ошибках
-        for (const auto& error : errors) {                      //!Для каждой ошибки в errors
-            string errorString = error.generateErrorMessage();  //!Создать сообщение об ошибке
-            outFile << errorString << "\n";                     //!Вывести сообщение об ошибке в файл
-        }
-    }
-    else {                                  //!Иначе 
-        for (const auto& line : output) {   //!Для каждой строки output 
-            outFile << line << "\n";        //!Вывести строку в файл	
-        }
+    for (const auto& line : output) {   //!Для каждой строки output 
+        outFile << line << "\n";        //!Вывести строку в файл	
     }
 
     outFile.close();    //!Закрыть файл 
