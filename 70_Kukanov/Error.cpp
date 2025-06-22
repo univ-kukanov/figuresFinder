@@ -121,6 +121,7 @@ string Error::getErrorOutputFilePath() const {
 
 string Error::generateErrorMessage() const {
 	string errorString;
+	//Создание сообщения об ошибке в зависимости от типа ошибки
 	switch (type) {
 	case noError:
 		break;
@@ -184,7 +185,7 @@ string Error::generateErrorMessage() const {
 		break;
 	}
 
-	return errorString;
+	return errorString;	//Вернуть созданное сообщение об ошибке
 }
 
 bool Error::operator<(const Error& other) const {
