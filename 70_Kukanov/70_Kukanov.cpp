@@ -213,7 +213,7 @@ void findFigureInMatrixByGivenElement(const int* matrix, int* passedMatrix, cons
 void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, const int maxElementSize, const int numberOfRows, const int numberOfColumns)
 {
     //Рассчитать размер разделителя: длину самого длинного элемента матрицы (maxElementSize) умножить на количество столбцов матрицы и прибавить число, на 1 меньше количества столбцов 
-    int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1); 
+    int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
     int figureIndex = 1;
     string separator(separatorLength, '-'); //Создать строку-разделитель из символов “-”, количество которых равно рассчитанному размеру разделителя 
 
