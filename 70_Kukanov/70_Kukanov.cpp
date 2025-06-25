@@ -216,27 +216,27 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
     int separatorLength = maxElementSize * numberOfColumns + (numberOfColumns - 1);
     int figureIndex = 1;    //Счетчик фигур
     const string separator(separatorLength, '-'); //Создать строку-разделитель из символов “-”, количество которых равно рассчитанному размеру разделителя 
+    const int rowSize = separatorLength;    //Максимальный размер строки равен размеру разделителя 
     output.reserve(figures.size() * (numberOfRows + 3));    //Резервируем память для output
 
     char* elementValue = new char[maxElementSize + 1];  //Инициализируем строку для хранения значения элемента
+    bool* figureMatrix = new bool[numberOfRows * numberOfColumns];    //Инициализируем матрицу для определения элементов, принадлежащих фигуре
+    char* newString = new char[rowSize + 1];    //Инициализируем новую строку для заполнения
+    char* noFigureElement = new char[maxElementSize + 1];  //Инициализируем строку для элементов, не принадлежащих фигуре
 
     for (const auto& figure : figures) {    //Для каждой фигуры 
-        const int rowSize = separatorLength;    //Максимальный размер строки равен размеру разделителя 
+        
         const int valueLength = snprintf(elementValue, maxElementSize + 1, "%d", figure.getElementValue()); //Сохраняем значение элемента в строку и высчитываем его длину
 
-        char* noFigureElement = new char[valueLength + 1];  //Инициализируем строку для элементов, не принадлежащих фигуре
         memset(noFigureElement, '*', valueLength);  //Заполняем ее "*"
         noFigureElement[valueLength] = '\0';
 
-        int* figureMatrix = new int[numberOfRows * numberOfColumns];    //Инициализируем матрицу для определения элементов, принадлежащих фигуре
-        fill_n(figureMatrix, numberOfRows * numberOfColumns, false);
         const set<ElementPosition>& positions = figure.getPositions();  //Контейнер с позициями элементов фигуры
 
+        fill_n(figureMatrix, numberOfRows * numberOfColumns, false);
         for (auto& pos : positions) {   //Для каждого элемента в фигуре
             *(figureMatrix + pos.getRow() * numberOfColumns + pos.getColumn()) = true;  //Отметить элемент в матрице принадлежащим фигуре
         }
-
-        char* newString = new char[rowSize + 1];    //Инициализируем новую строку для заполнения
 
         for (int i = 0; i < numberOfRows; i++) {    //Для каждой строки матрицы 
             char* currentPos = newString;
@@ -260,10 +260,6 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
             output.emplace_back(move(newString));    //Добавить строку к контейнеру строк на вывод 
         }
 
-        //Освобождение памяти
-        delete[] figureMatrix;
-        delete[] noFigureElement;
-
         if (figureIndex != figures.size()) {    //Добавить в контейнер разделитель фигур, если это не последняя фигура 
             output.push_back("");
             output.push_back(separator);
@@ -274,6 +270,9 @@ void generateOutputMatrix(const set<Figure>& figures, vector<string>& output, co
     }
 
     //Освобождение памяти
+    delete[] newString;
+    delete[] noFigureElement;
+    delete[] figureMatrix;
     delete[] elementValue;
 }
 

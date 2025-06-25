@@ -13,12 +13,12 @@ public:
 	/*! \brief Добавление элемента в фигуру
 		\param[in] pos - позиция элемента
 	*/
-	void addElement(ElementPosition pos);	
+	void addElement(ElementPosition pos);
 
 	/*! \brief Получение размера фигуры
 		\return - размер фигуры
 	*/
-	int figureSize() const;		
+	int figureSize() const;
 
 	/*! \brief Проверка принадлежности элемента к фигуре
 		\param[in] pos - позиция элемента
